@@ -2,16 +2,16 @@
 
 // Aanpassen naar je eigen omgeving
 define("USER", "root");
-define("PASSWORD", "root");
-define("DATABASE", "verrukkulluk");
-define("HOST", "localhost");
+define("PASSWORD", "Ibahps2019");
+define("DATABASE", "db");
+define("HOST", "127.0.0.1");
 
 class database {
 
     private $connection;
 
     public function __construct() {
-       $this->connectie = mysqli_connect(HOST, 
+       $this->connection = mysqli_connect(HOST, 
                                          DATABASE, 
                                          USER, 
                                          PASSWORD);
