@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 22 feb 2022 om 16:36
+-- Gegenereerd op: 23 feb 2022 om 15:38
 -- Serverversie: 10.4.22-MariaDB
 -- PHP-versie: 8.1.2
 
@@ -35,6 +35,23 @@ CREATE TABLE `artikel` (
   `eenheid` int(11) NOT NULL,
   `verpakking` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Gegevens worden geëxporteerd voor tabel `artikel`
+--
+
+INSERT INTO `artikel` (`id`, `naam`, `omschrijving`, `prijs`, `eenheid`, `verpakking`) VALUES
+(1, 'Melk', 'Melk', '150', 1, 'fles'),
+(2, 'Hamburger', 'Hamburger van rundvlees', '350', 1, 'foto verpakking'),
+(3, 'gehaktballen', 'gehaktballen', '400', 8, 'foto verpakking'),
+(4, 'tomatensaus', 'kruidige tomatensaus', '325', 1, 'foto pot tomatensaus'),
+(5, 'cheddar', 'cheddar kaas', '275', 10, 'foto verpakking (10 plakken kaas)'),
+(6, 'sla', 'zakje gesneden kropsla', '100', 1, 'foto zakje gesneden kropsla'),
+(7, 'cashewnoten', 'zakje cashewnoten', '375', 1, 'foto zakje cashewnoten (75 gram)'),
+(8, 'broccolirijst', 'pak 200 gram broccolirijst', '300', 1, 'foto doos broccolirijst 200 gram'),
+(9, 'groentecurry', 'boemboe rode curry', '250', 1, 'foto pakje 100 gram'),
+(10, 'aubergine', 'aubergine', '100', 1, 'foto hele aubergine'),
+(11, 'mosterd', 'potje mosterd grof gemalen', '120', 1, 'foto potje mosterd');
 
 -- --------------------------------------------------------
 
@@ -189,7 +206,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT voor een tabel `artikel`
 --
 ALTER TABLE `artikel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT voor een tabel `gerecht`
