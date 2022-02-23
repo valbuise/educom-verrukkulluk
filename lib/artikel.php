@@ -8,7 +8,7 @@ class artikel {
         $this->connection = $connection;
     }
   
-    public function selecteerArtikel($artikel_id) {
+    public function selectArtikel($artikel_id) {
 
         $sql = "select * from artikel where id = $artikel_id";
         
