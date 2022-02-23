@@ -8,7 +8,7 @@ class user {
         $this->connection = $connection;
     }
 
-    public function selecteerUser($user_id){
+    public function selectUser($user_id){
 
         $sql="select * from user where id = $user_id";
 
