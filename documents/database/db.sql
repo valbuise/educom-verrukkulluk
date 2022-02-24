@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 24 feb 2022 om 11:55
+-- Gegenereerd op: 24 feb 2022 om 14:24
 -- Serverversie: 10.4.22-MariaDB
 -- PHP-versie: 8.1.2
 
@@ -32,7 +32,7 @@ CREATE TABLE `artikel` (
   `naam` text NOT NULL,
   `omschrijving` text NOT NULL,
   `prijs` decimal(10,0) NOT NULL,
-  `eenheid` varchar(15) NOT NULL,
+  `aantal` int(10) NOT NULL,
   `verpakking` varchar(500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -40,17 +40,17 @@ CREATE TABLE `artikel` (
 -- Gegevens worden geëxporteerd voor tabel `artikel`
 --
 
-INSERT INTO `artikel` (`id`, `naam`, `omschrijving`, `prijs`, `eenheid`, `verpakking`) VALUES
-(2, 'Hamburger', 'Hamburger van rundvlees', '350', '1 stuk', 'https://static.ah.nl/static/product/AHI_43545239363931383738_1_200x200_JPG.JPG'),
-(3, 'gehaktballen', 'gehaktballen', '400', '12 stuks', 'https://static.ah.nl/static/product/AHI_43545239383337383839_1_200x200_JPG.JPG'),
-(4, 'tomatensaus', 'kruidige tomatensaus', '325', '600 gram', 'https://static.ah.nl/static/product/AHI_43545239373838373338_1_200x200_JPG.JPG'),
-(5, 'cheddar', 'cheddar kaas', '275', '200 gram', 'https://static.ah.nl/static/product/AHI_43545239373032303532_1_200x200_JPG.JPG'),
-(6, 'sla', 'zakje gesneden ijsbergsla', '100', '100 gram', 'https://static.ah.nl/static/product/AHI_434d50323038383834_2_200x200_JPG.JPG'),
-(7, 'cashewnoten', 'zakje cashewnoten', '375', '250 gram', 'https://static.ah.nl/static/product/AHI_43545239383233353439_1_200x200_JPG.JPG'),
-(8, 'broccolirijst', 'pak broccolirijst', '300', '400 gram', 'https://static.ah.nl/static/product/AHI_43545239353533393738_3_200x200_JPG.JPG'),
-(9, 'groentecurry', 'boemboe rode curry', '250', '100 gram', 'https://static.ah.nl/static/product/AHI_43545239363532343930_1_200x200_JPG.JPG'),
-(10, 'aubergine', 'aubergine', '100', '1 stuk', 'https://static.ah.nl/static/product/AHI_434d5035363532303830_1_200x200_JPG.JPG'),
-(11, 'mosterd', 'potje mosterd grof gemalen', '120', '300 gram', 'https://static.ah.nl/static/product/AHI_43545239353838303137_3_200x200_JPG.JPG');
+INSERT INTO `artikel` (`id`, `naam`, `omschrijving`, `prijs`, `aantal`, `verpakking`) VALUES
+(2, 'Hamburger', 'Hamburger van rundvlees', '350', 1, 'https://static.ah.nl/static/product/AHI_43545239363931383738_1_200x200_JPG.JPG'),
+(3, 'gehaktballen', 'gehaktballen', '400', 12, 'https://static.ah.nl/static/product/AHI_43545239383337383839_1_200x200_JPG.JPG'),
+(4, 'tomatensaus', 'kruidige tomatensaus', '325', 1, 'https://static.ah.nl/static/product/AHI_43545239373838373338_1_200x200_JPG.JPG'),
+(5, 'cheddar', 'cheddar kaas', '275', 10, 'https://static.ah.nl/static/product/AHI_43545239373032303532_1_200x200_JPG.JPG'),
+(6, 'sla', 'zakje gesneden ijsbergsla', '100', 1, 'https://static.ah.nl/static/product/AHI_434d50323038383834_2_200x200_JPG.JPG'),
+(7, 'cashewnoten', 'zakje cashewnoten', '375', 1, 'https://static.ah.nl/static/product/AHI_43545239383233353439_1_200x200_JPG.JPG'),
+(8, 'broccolirijst', 'pak broccolirijst', '300', 1, 'https://static.ah.nl/static/product/AHI_43545239353533393738_3_200x200_JPG.JPG'),
+(9, 'groentecurry', 'boemboe rode curry', '250', 1, 'https://static.ah.nl/static/product/AHI_43545239363532343930_1_200x200_JPG.JPG'),
+(10, 'aubergine', 'aubergine', '100', 1, 'https://static.ah.nl/static/product/AHI_434d5035363532303830_1_200x200_JPG.JPG'),
+(11, 'mosterd', 'potje mosterd grof gemalen', '120', 300, 'https://static.ah.nl/static/product/AHI_43545239353838303137_3_200x200_JPG.JPG');
 
 -- --------------------------------------------------------
 
@@ -132,14 +132,14 @@ CREATE TABLE `ingredient` (
   `id` int(11) NOT NULL,
   `gerecht_id` int(11) NOT NULL,
   `artikel_id` int(11) NOT NULL,
-  `aantal` varchar(20) NOT NULL
+  `eenheid` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `ingredient`
 --
 
-INSERT INTO `ingredient` (`id`, `gerecht_id`, `artikel_id`, `aantal`) VALUES
+INSERT INTO `ingredient` (`id`, `gerecht_id`, `artikel_id`, `eenheid`) VALUES
 (1, 2, 3, '12 stuks'),
 (2, 2, 4, '400 gram'),
 (3, 3, 2, '1 stuk'),
