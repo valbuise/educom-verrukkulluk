@@ -12,8 +12,7 @@ class recipeinfo{
 
 
 
-    // de 'setters':
-
+    
     public function __construct($connection){
         $this->connection = $connection;
         $this->user = new user($connection);
@@ -57,25 +56,25 @@ class recipeinfo{
     }
 
 
-    public function addFavorite($gerecht_id, $user_id){ //volgorde nog niet definitief: gehele functie dient straks nog getest te worden.           
+    public function addFavorite($gerecht_id, $user_id){            
 
-        $favorite = [];
+        $this->deleteFavorite($gerecht_id, $user_id);// de deleteFavorite functie hier callen;
 
-        $sql = //hier ga ik een regel schrijven waar er een F wordt toegevoegd aan record_type, voor welk user_id dit is en welk gerecht_id;
+        $sql = "insert into gerecht_info (record_type, gerecht_id, user_id) values ('F', '$gerecht_id', '$user_id')"; //hier ga ik een regel schrijven waar er een F wordt toegevoegd aan record_type, voor welk user_id dit is en welk gerecht_id;
 
         $result = mysqli_query($this->connection, $sql);
 
-        $favorite[] = $result;
-
-        return($favorite);
+        return(true);
     }
 
 
-    public function deleteFavorite($recept_id, $user_id){
+    public function deleteFavorite($gerecht_id, $user_id){
 
+        $sql = "delete from gerecht_info where record_type = 'F'";
+
+        $result = mysqli_query($this->connection, $sql);
         
-        return($favorite);
-
+        return(true);
     }
 
 
