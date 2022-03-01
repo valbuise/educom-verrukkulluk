@@ -20,19 +20,23 @@ class ingredient {
 
 
 
-    public function selectIngredient($gerecht_id, $artikel_id){
+    public function selectIngredient($gerecht_id){
              
-        $sql = "select * from ingredient where gerecht_id = $gerecht_id and artikel_id = $artikel_id";
+        $sql = "select * from ingredient where gerecht_id = $gerecht_id";
 
         $result = mysqli_query($this->connection, $sql);
 
-        $ingredient[] = mysqli_fetch_array($result, MYSQLI_ASSOC);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
-        $artikel = $this->selectArtikel($artikel_id);
+            $artikel = $this->artikel->selectArtikel($row['artikel_id']);
 
-        $artEnIng[] = array_merge($ingredient, $artikel);
+            $artEnIng[] = array_merge($row, $artikel);
+
+        }
 
         return($artEnIng);
     }
 
+    
+    
 }
