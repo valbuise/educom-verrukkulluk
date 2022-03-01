@@ -7,7 +7,7 @@ class recipeinfo{
 
     private $connection;
     private $user;
-    private $favorite;
+    
 
 
 
@@ -70,7 +70,7 @@ class recipeinfo{
 
     public function deleteFavorite($gerecht_id, $user_id){
 
-        $sql = "delete from gerecht_info where record_type = 'F'";
+        $sql = "delete from gerecht_info where record_type = 'F' and gerecht_id = $gerecht_id and user_id = $user_id";
 
         $result = mysqli_query($this->connection, $sql);
         
