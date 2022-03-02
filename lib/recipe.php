@@ -8,6 +8,7 @@ class recipe {
    private $ingredient;
    private $gerecht_info;
    private $record_type;
+   private $allRatings;
 
 
 
@@ -36,59 +37,31 @@ class recipe {
        return $gerecht_info;
    }
 
+   private function calcRating($allRatings){
 
-   public function selectRating($gerecht_info_id){
-       
-        $sql = "select * from gerecht_info where id = $gerecht_info_id";
+    //guard clause:
+    if (count($allRatings) == 0){
+        return (0);
+    }
 
-        $result = mysqli_query($this->connection, $sql);
-       
-        $array = mysqli_fetch_array($result, MYSQLI_ASSOC);
+    $average = 0;
+    $total = 0;
 
-        //return $array;
+    foreach ($allRatings as $oneRating){
 
-            if ($array['record_type'] == 'W'){
+        $total += $oneRating['nummeriekveld'];
+    }
 
-            $sql = "select nummeriekveld from gerecht_info where id = $gerecht_info_id";
+    $average = $total / count($allRatings);
 
-            $result = mysqli_query($this->connection, $sql);
-            
-            $rating = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-            return $rating;        
-            
-                        
-            }
-        }
+    return $average;
 
 
-
-    public function selectSteps($gerecht_id){
-
-        $sql = "select * from gerecht_info where id = $gerecht_id";
-
-        $result = mysqli_query($this->connection, $sql);
-
-        $array = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-        //return $array;
-        
-        while ($array['record_type'] == 'B'){
-
-            $sql = "select nummeriekveld, tekstveld from gerecht_info";
-
-            $result = mysqli_query($this->connection, $sql);
-
-            $steps = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-            return $steps;
-        }
-    }    
+   }
 
 
-
-
-   public function selectRecipe($gerecht_id, $record_type){
+   
+   public function selectRecipe($gerecht_id){
 
         $sql = "select * from gerecht where id = $gerecht_id";
     
@@ -96,25 +69,24 @@ class recipe {
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
-            $user = $this->user->selectUser($row['user_id']);
+            $user = $this->selectUser($row['user_id']);
 
-            $ingredient = $this->ingredient->selectIngredient($gerecht_id);
+            $ingredient = $this->selectIngredient($gerecht_id);
+
+            $rating = $this->selectInfo($gerecht_id, 'W');
+            
+            $avgRating = $this->selectInfo(calcRating($allRatings)); 
+
+            $steps = $this->selectInfo($gerecht_id, 'B');
+
+            $remarks = $this->selectInfo($gerecht_id, 'O');
+
+
+
+
 
             
-
-            if ($record_type == 'O' || $record_type == 'B' || $record_type == 'W'){ 
-
-                $gerecht_info = $this->gerecht_info->selectInfo($gerecht_id, $record_type);
-                
-                $gerecht[] = array_merge($row, $user, $ingredient, $gerecht_info);
-                
-                        
-               
-                //$gerecht_info = array_merge($row, $user);          
-             }
-
-            
-            $gerecht[] = array_merge($row, $user, $ingredient);
+            $gerecht[] = array_merge($row, $user, $ingredient, $rating, $avgRating, $steps, $remarks);
 
 
           
