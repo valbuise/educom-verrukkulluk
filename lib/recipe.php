@@ -64,43 +64,40 @@ class recipe {
    }
 
 
-   private function calcPrice($totalPrice){ 
-
-   //guard clause:
-   if (count($totalPrice) == 0){
-       return(0);
-   }
+   private function calcPrice($ingredient){ 
 
    $total = 0;
+   $totalPrice = 0;
 
-   foreach ($totalPrice as $pricePerArt){
+   foreach ($ingredient as $pricePerArt){
 
-    $total += $pricePerArt['prijs'];
+        $ingredient = $pricePerArt['prijs'] / $pricePerArt['verpakking'] * $pricePerArt['aantal'];
+
+        $total += $ingredient;
 
    }
+   
 
     $totalInEuro = $total / 100;
 
-    return $totalInEuro;
+    return $totalInEuro; 
    
    }
 
 
-   private function calcCalories($totalCalories){ //aantal (art) / eenheid (ing) * cal (KCAL) v artikel. En dat voor iedere benodigd art.
-// werkt niet, doordat aantal / eenheid niet lukt (soms is eenheid een aantal stuks, soms in gram, etc.)
-    $total = 0;
-    $artikel="";
-    $ingredient="";
+   private function calcCalories($totalCalories){ 
 
-    $calPerIngredient = $artikel['aantal'] / $ingredient['eenheid'] * $calorie['calorieën (KCAL)'];
+    $total = 0;
     
     foreach ($totalCalories as $calPerIngredient){
 
-        $total += $calPerIngredient;
+        $totalCalories = $calPerIngredient['calorieën (KCAL)'] / $calPerIngredient['verpakking'] *  $calPerIngredient['aantal'];
+                
+        $total += $totalCalories;
 
     }
-
-    return $totalCalories;
+    
+    return $total;
 
    }
 
@@ -127,15 +124,13 @@ class recipe {
             $gerecht[] = array_merge($row, $user, $ingredient, $rating, $steps, $remarks);
 
             //hoe combineer ik uiteindelijk onderstaande variabelen met bovenstaande gemergde arrays?
-            
+
             $avgRating = $this->calcRating($rating);
 
             $totalPrice = $this->calcPrice($ingredient);
 
             $totalCalories = $this->calcCalories($ingredient);
-
-
-            
+        
 
 
 
@@ -144,8 +139,7 @@ class recipe {
             
 
 
-          
-            
+       
         }
 
         //return $gerecht;
