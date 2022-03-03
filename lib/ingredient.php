@@ -22,6 +22,8 @@ class ingredient {
 
     public function selectIngredient($gerecht_id){
              
+        $artEnIng = [];
+        
         $sql = "select * from ingredient where gerecht_id = $gerecht_id";
 
         $result = mysqli_query($this->connection, $sql);
