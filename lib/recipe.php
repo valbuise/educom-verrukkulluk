@@ -10,6 +10,8 @@ class recipe {
    private $record_type;
    private $allRatings;
    private $artikel;
+   private $keuken;
+   private $type;
 
 
 
@@ -18,6 +20,8 @@ class recipe {
        $this->user = new user ($connection);
        $this->ingredient = new ingredient ($connection);
        $this->gerecht_info = new recipeinfo ($connection);
+       $this->keukentype = new kitchenType ($connection);
+       
     
    }
 
@@ -27,7 +31,38 @@ class recipe {
       return $user;
    }
 
+   private function selectKitchenType($gerecht_id){                     // hier argument gerecht_id, omdat er 2 id's nodig zijn 
+       $keukentype = $this->keukentype->selectKitchenType($gerecht_id); // om zowel type als keuken terug te krijgen ...
+       return $keukentype; 
+   }
 
+   
+   /*private function selectKitchen($keuken_id){
+
+    $sql = "select * from db . keuken_type where id = $keuken_id and record_type = 'K'";
+
+    $result = mysqli_query($this->connection, $sql);
+
+    $keuken = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    return $keuken;
+
+   }
+
+   private function selectType($type_id){
+
+    $sql = "select * from db . keuken_type where id = $type_id and record_type = 'T'";
+
+    $result = mysqli_query($this->connection, $sql);
+
+    $type = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+    return $type;
+
+  }
+
+*/
+     
    private function selectIngredient($gerecht_id){
        $ingredient = $this->ingredient->selectIngredient($gerecht_id);
        return $ingredient;
@@ -105,6 +140,8 @@ class recipe {
    
    public function selectRecipe($gerecht_id){
 
+        $gerecht = [];
+
         $sql = "select * from gerecht where id = $gerecht_id";
     
         $result = mysqli_query($this->connection, $sql);
@@ -112,6 +149,10 @@ class recipe {
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
             $user = $this->selectUser($row['user_id']);
+
+            $type = $this->selectKitchenType($row['type_id']);      
+
+            $keuken = $this->selectKitchenType($row['keuken_id']);
 
             $ingredient = $this->selectIngredient($gerecht_id);
 
@@ -121,9 +162,9 @@ class recipe {
 
             $remarks = $this->selectInfo($gerecht_id, 'O');
 
-            $gerecht[] = array_merge($row, $user, $ingredient, $rating, $steps, $remarks);
+            $gerecht[] = array_merge($row, $user, $type, $keuken, $ingredient, $rating, $steps, $remarks);
 
-            //hoe combineer ik uiteindelijk onderstaande variabelen met bovenstaande gemergde arrays?
+            
 
             $avgRating = $this->calcRating($rating);
 
@@ -131,25 +172,33 @@ class recipe {
 
             $totalCalories = $this->calcCalories($ingredient);
         
-
-
-
-
-            
-            
-
-
        
         }
 
-        //return $gerecht;
-        //return $avgRating;
-        //return $totalPrice;
-        return $totalCalories;
-
-
+        return [$gerecht, $avgRating, $totalPrice, $totalCalories]; // Is dit op deze manier juist gecombineerd?
+       
 
     }
 
+    // select one or more recipes: onderstaande zijn nog maar wat hersenspinsels over de opdracht:
+
+    public function selectMoreRecipes($aantal){
+
+        $aantal = 0;
+
+        $selectedRecipes = 0;
+
+        while ($aantal < $selectedRecipes){
+
+            $selectedRecipes = $this->selectRecipe($gerecht_id);
+
+            $aantal += $selectedRecipes;
+        } 
+
+        //array_merge? 
+
+        return $aantal;
+
+    }
 
 }
