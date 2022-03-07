@@ -12,6 +12,8 @@ class recipe {
    private $artikel;
    private $keuken;
    private $type;
+   private $keukentype;
+
 
 
 
@@ -31,38 +33,12 @@ class recipe {
       return $user;
    }
 
-   private function selectKitchenType($gerecht_id){                     // hier argument gerecht_id, omdat er 2 id's nodig zijn 
-       $keukentype = $this->keukentype->selectKitchenType($gerecht_id); // om zowel type als keuken terug te krijgen ...
+   private function selectKitchenType($keuken_type_id){                     
+       $keukentype = $this->keukentype->selectKitchenType($keuken_type_id);
        return $keukentype; 
    }
 
-   
-   /*private function selectKitchen($keuken_id){
-
-    $sql = "select * from db . keuken_type where id = $keuken_id and record_type = 'K'";
-
-    $result = mysqli_query($this->connection, $sql);
-
-    $keuken = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-    return $keuken;
-
-   }
-
-   private function selectType($type_id){
-
-    $sql = "select * from db . keuken_type where id = $type_id and record_type = 'T'";
-
-    $result = mysqli_query($this->connection, $sql);
-
-    $type = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-    return $type;
-
-  }
-
-*/
-     
+      
    private function selectIngredient($gerecht_id){
        $ingredient = $this->ingredient->selectIngredient($gerecht_id);
        return $ingredient;
@@ -134,25 +110,37 @@ class recipe {
     
     return $total;
 
-   }
-
-
+    }   
    
-   public function selectRecipe($gerecht_id){
+    
+    
+    public function selectRecipe($gerecht_id = NULL){
+  
+    $gerecht = [];    
 
-        $gerecht = [];
+    if ($gerecht_id == NULL){
+
+        $sql =  "select * from gerecht";
+     
+        $result = mysqli_query($this->connection, $sql);
+     
+        $gerecht = mysqli_fetch_all($result, MYSQLI_ASSOC);
+     
+        return $gerecht; 
+    
+    }   else {
 
         $sql = "select * from gerecht where id = $gerecht_id";
-    
+                    
         $result = mysqli_query($this->connection, $sql);
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
             $user = $this->selectUser($row['user_id']);
 
-            $type = $this->selectKitchenType($row['type_id']);      
+            $type = $this->selectKitchenType($row['type_id']);  // deze haalt hij niet op; ik kom er niet achter waarom niet?      
 
-            $keuken = $this->selectKitchenType($row['keuken_id']);
+            $keuken = $this->selectKitchenType($row['keuken_id']); // deze namelijk wel..
 
             $ingredient = $this->selectIngredient($gerecht_id);
 
@@ -162,7 +150,9 @@ class recipe {
 
             $remarks = $this->selectInfo($gerecht_id, 'O');
 
-            $gerecht[] = array_merge($row, $user, $type, $keuken, $ingredient, $rating, $steps, $remarks);
+            $favorite = $this->selectInfo($gerecht_id, 'F');
+
+            $gerecht[] = array_merge($row, $user, $type, $keuken, $ingredient, $rating, $steps, $remarks, $favorite);
 
             
 
@@ -170,35 +160,13 @@ class recipe {
 
             $totalPrice = $this->calcPrice($ingredient);
 
-            $totalCalories = $this->calcCalories($ingredient);
+            $totalCalories = $this->calcCalories($ingredient);    
         
-       
+
+            return [$gerecht, $avgRating, $totalPrice, $totalCalories]; // Is dit op deze manier juist gecombineerd?
+            }
+        }
         }
 
-        return [$gerecht, $avgRating, $totalPrice, $totalCalories]; // Is dit op deze manier juist gecombineerd?
-       
-
-    }
-
-    // select one or more recipes: onderstaande zijn nog maar wat hersenspinsels over de opdracht:
-
-    public function selectMoreRecipes($aantal){
-
-        $aantal = 0;
-
-        $selectedRecipes = 0;
-
-        while ($aantal < $selectedRecipes){
-
-            $selectedRecipes = $this->selectRecipe($gerecht_id);
-
-            $aantal += $selectedRecipes;
-        } 
-
-        //array_merge? 
-
-        return $aantal;
-
-    }
 
 }
