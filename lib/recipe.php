@@ -138,15 +138,15 @@ class recipe {
 
             $keuken = $this->selectKitchenType($row['keuken_id']); 
 
-            $ingredient = $this->selectIngredient($gerecht_id);
+            $ingredient = $this->selectIngredient($row['id']);
 
-            $rating = $this->selectInfo($gerecht_id, 'W');
+            $rating = $this->selectInfo($row['id'], 'W');
             
-            $steps = $this->selectInfo($gerecht_id, 'B');
+            $steps = $this->selectInfo($row['id'], 'B');
 
-            $remarks = $this->selectInfo($gerecht_id, 'O');
+            $remarks = $this->selectInfo($row['id'], 'O');
 
-            $favorite = $this->selectInfo($gerecht_id, 'F');
+            $favorite = $this->selectInfo($row['id'], 'F');
             
             $avgRating = $this->calcRating($rating);
 
