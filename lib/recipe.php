@@ -102,7 +102,7 @@ class recipe {
     
     foreach ($totalCalories as $calPerIngredient){
 
-        $totalCalories = $calPerIngredient['calorieën (KCAL)'] / $calPerIngredient['verpakking'] *  $calPerIngredient['aantal'];
+        $totalCalories = $calPerIngredient['calorie'] / $calPerIngredient['verpakking'] *  $calPerIngredient['aantal'];
                 
         $total += $totalCalories;
 
@@ -116,31 +116,27 @@ class recipe {
     
     public function selectRecipe($gerecht_id = NULL){
   
-    $gerecht = [];    
-
-    if ($gerecht_id == NULL){
-
-        $sql =  "select * from gerecht";
-     
-        $result = mysqli_query($this->connection, $sql);
-     
-        $gerecht = mysqli_fetch_all($result, MYSQLI_ASSOC);
-     
-        return $gerecht; 
+        $gerechten = [];
+          
+        
+        $sql =  "select * from gerecht"; // geeft fout
     
-    }   else {
+        if ($gerecht_id != NULL){
+    
+            $sql .= " where id = $gerecht_id";
+        }
 
-        $sql = "select * from gerecht where id = $gerecht_id";
-                    
-        $result = mysqli_query($this->connection, $sql);
+
+    $result = mysqli_query($this->connection, $sql); 
+        
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
             $user = $this->selectUser($row['user_id']);
 
-            $type = $this->selectKitchenType($row['type_id']);  // deze haalt hij niet op; ik kom er niet achter waarom niet?      
+            $type = $this->selectKitchenType($row['type_id']);        
 
-            $keuken = $this->selectKitchenType($row['keuken_id']); // deze namelijk wel..
+            $keuken = $this->selectKitchenType($row['keuken_id']); 
 
             $ingredient = $this->selectIngredient($gerecht_id);
 
@@ -151,11 +147,7 @@ class recipe {
             $remarks = $this->selectInfo($gerecht_id, 'O');
 
             $favorite = $this->selectInfo($gerecht_id, 'F');
-
-            $gerecht[] = array_merge($row, $user, $type, $keuken, $ingredient, $rating, $steps, $remarks, $favorite);
-
             
-
             $avgRating = $this->calcRating($rating);
 
             $totalPrice = $this->calcPrice($ingredient);
@@ -163,10 +155,30 @@ class recipe {
             $totalCalories = $this->calcCalories($ingredient);    
         
 
-            return [$gerecht, $avgRating, $totalPrice, $totalCalories]; // Is dit op deze manier juist gecombineerd?
+            $gerechten[] = [
+                
+                "id" => $row['id'],
+                "user" => $user['user_name'],
+                "datum" => $row['datum_toegevoegd'],
+                "titel" => $row['titel'],
+                "korte_omschrijving" => $row['korte_omschrijving'],
+                "lange_omschrijving" => $row['lange_omschrijving'],
+                "afbeelding" =>$row['afbeelding'],
+                "type" => $type['omschrijving'],
+                "keuken" => $keuken['omschrijving'],
+                "ingredient" => $ingredient,
+                "rating" => $rating,
+                "steps" => $steps,
+                "remarks" => $remarks,
+                "favorite" => $favorite,       
+                "avgrating" => $avgRating,
+                "totalprice" => $totalPrice,
+                "totalcalories" => $totalCalories,
+
+            ];
             }
-        }
-        }
 
-
+            return $gerechten;
+    }
+        
 }
