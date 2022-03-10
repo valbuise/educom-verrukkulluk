@@ -27,28 +27,84 @@ class shoppinglist {
 
 
 
-    public function addToList($gerecht_id){
+    public function addToList($gerecht_id, $user_id){
 
-     
-        $list = [];
+    $ingredients = $this->selectIngredient($gerecht_id);
 
-        $ingredients = $this->selectIngredient($gerecht_id); 
-         
-        while($ingredients){                 // dit lijkt een infinite loop te geven? Al snap ik niet waarom (want er zit een max.
-                                             // aantal elementen in de array $ingredients?)
+    $total = 0;
 
-            $list[] = [
-                "artikel_id" => $ingredients[0]['artikel_id'],
-                "verpakking" => $ingredients[0]['verpakking'],
-            ];                                          // Hoe ik ook probeer de juiste elementen te 
-                                                        //selecteren en toe te voegen, ik kom er (tot nog toe) niet...
+    foreach ($ingredients as $ingredient) {
+
+        if($this->artikelOnList($ingredient['artikel_id'], $user_id));{
+
+        /* onderstaande doet wel iets, maar 2 problemen: 
+
+        1: site blijft loopen (terwijl er wel iets wordt aangepast in de database).
+
+        2: alleen de verpakking van het eerste artikel van de ingredienten wordt vermeerderd, niet ieder artikel. */
+
+        $total_bijgewerkt = 0;
+             
+        while ($ingredient['aantal'] > $ingredient['verpakking']) {
+
+            $artikel_id = $ingredient['artikel_id'];
+
+            $extra_verpakking = $ingredient['verpakking'] + $ingredient['verpakking'];
+
+            $sql = "update boodschappenlijst set verpakking = $extra_verpakking where user_id = $user_id and artikel_id = $artikel_id";
+
+            $result = mysqli_query($this->connection, $sql);
+
+            $total_bijgewerkt += $result;
+
+            }
+
+        return(true);
+        
+        
 
         }
-      
 
-        return $list;
+        $artikel = $ingredient['artikel_id'];
+        $verpakking = $ingredient['verpakking'];
+        $aantal = $ingredient['aantal'];
+        $prijs = $ingredient['prijs'];
 
+        $sql = "insert into boodschappenlijst(user_id, artikel_id, verpakking, aantal, prijs) values (1, $artikel, $verpakking, $aantal, $prijs)";
 
-    }    
+        $result = mysqli_query($this->connection, $sql);
+
+        $total += $result;
+        
+    }
+
+    return(true);
+
+    }   
+        
+
+    // onderstaande functie is getest en werkt!
+
+    public function artikelOnList($artikel_id, $user_id){
+
+        $sql = "select * from boodschappenlijst where user_id = $user_id";
+
+        $result = mysqli_query($this->connection, $sql);
+
+        $groceries = mysqli_fetch_all($result, MYSQLI_ASSOC);                 
+
+        foreach($groceries as $grocerie){
+
+            if ($grocerie['artikel_id']==$artikel_id){
+
+                return $grocerie;
+
+            }
+        
+
+        }
+
+        return(false);
+    }
 
 }
