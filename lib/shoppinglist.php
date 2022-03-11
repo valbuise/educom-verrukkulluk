@@ -35,17 +35,43 @@ class shoppinglist {
 
     foreach ($ingredients as $ingredient) {
 
-        if($this->artikelOnList($ingredient['artikel_id'], $user_id));{
+    if($this->artikelOnList($ingredient['artikel_id'], $user_id) == false) {
 
-        /* onderstaande doet wel iets, maar 2 problemen: 
+            
+    /* onderstaande doet het wel, maar 1 probleem: 
 
-        1: site blijft loopen (terwijl er wel iets wordt aangepast in de database).
+    1: Hoe kan ik als alle ingredienten in de array zijn doorlopen, er nog eens doorheenlopen? 
+    (totdat alle condities in de functie zijn voldaan?)
+    Of: hoe kan ik in dit geval binnen de if-statements loopen, totdat ze niet meer waar zijn?
+ 
+    */
 
-        2: alleen de verpakking van het eerste artikel van de ingredienten wordt vermeerderd, niet ieder artikel. */
+    $artikel = $ingredient['artikel_id'];
+    $verpakking = $ingredient['verpakking'];
+    $aantal = $ingredient['aantal'];
+    $prijs = $ingredient['prijs'];
 
-        $total_bijgewerkt = 0;
-             
-        while ($ingredient['aantal'] > $ingredient['verpakking']) {
+    $sql = "insert into boodschappenlijst(user_id, artikel_id, verpakking, aantal, prijs) values (1, $artikel, $verpakking, $aantal, $prijs)";
+
+    $result = mysqli_query($this->connection, $sql);
+
+    
+
+    if ($ingredient['aantal'] > $ingredient['verpakking']) {
+
+        $artikel_id = $ingredient['artikel_id'];
+
+        $extra_verpakking = $ingredient['verpakking'] + $ingredient['verpakking'];
+
+        $sql = "update boodschappenlijst set verpakking = $extra_verpakking where user_id = $user_id and artikel_id = $artikel_id";
+
+        $result = mysqli_query($this->connection, $sql);
+      
+    }
+        
+    } else {
+
+        if ($ingredient['aantal'] > $ingredient['verpakking']) {
 
             $artikel_id = $ingredient['artikel_id'];
 
@@ -54,34 +80,24 @@ class shoppinglist {
             $sql = "update boodschappenlijst set verpakking = $extra_verpakking where user_id = $user_id and artikel_id = $artikel_id";
 
             $result = mysqli_query($this->connection, $sql);
-
-            $total_bijgewerkt += $result;
-
-            }
-
-        return(true);
-        
-        
-
+          
         }
 
-        $artikel = $ingredient['artikel_id'];
-        $verpakking = $ingredient['verpakking'];
-        $aantal = $ingredient['aantal'];
-        $prijs = $ingredient['prijs'];
-
-        $sql = "insert into boodschappenlijst(user_id, artikel_id, verpakking, aantal, prijs) values (1, $artikel, $verpakking, $aantal, $prijs)";
-
-        $result = mysqli_query($this->connection, $sql);
-
-        $total += $result;
-        
     }
 
-    return(true);
+    $total += $result;
 
-    }   
+    
+    
+    }  
+
+    $total ++;
+
+    } 
+
         
+
+
 
     // onderstaande functie is getest en werkt!
 
