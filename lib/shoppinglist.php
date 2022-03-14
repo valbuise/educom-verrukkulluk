@@ -38,16 +38,9 @@ class shoppinglist {
     if($this->artikelOnList($ingredient['artikel_id'], $user_id) == false) {
 
             
-    /* onderstaande doet het wel, maar 1 probleem: 
-
-    1: Hoe kan ik als alle ingredienten in de array zijn doorlopen, er nog eens doorheenlopen? 
-    (totdat alle condities in de functie zijn voldaan?)
-    Of: hoe kan ik in dit geval binnen de if-statements loopen, totdat ze niet meer waar zijn?
- 
-    */
-
     $artikel = $ingredient['artikel_id'];
-    $verpakking = $ingredient['verpakking'];
+    $nodig = $ingredient['aantal'] / $ingredient['verpakking'];
+    $verpakking = ceil($nodig);
     $aantal = $ingredient['aantal'];
     $prijs = $ingredient['prijs'];
 
@@ -61,7 +54,9 @@ class shoppinglist {
 
         $artikel_id = $ingredient['artikel_id'];
 
-        $extra_verpakking = $ingredient['verpakking'] + $ingredient['verpakking'];
+        $extra_nodig = $ingredient['aantal'] / $ingredient['verpakking'];
+
+        $extra_verpakking = ceil($extra_nodig);
 
         $sql = "update boodschappenlijst set verpakking = $extra_verpakking where user_id = $user_id and artikel_id = $artikel_id";
 
@@ -75,7 +70,9 @@ class shoppinglist {
 
             $artikel_id = $ingredient['artikel_id'];
 
-            $extra_verpakking = $ingredient['verpakking'] + $ingredient['verpakking'];
+            $extra_nodig = $ingredient['aantal'] / $ingredient['verpakking'];
+
+            $extra_verpakking = ceil($extra_nodig);
 
             $sql = "update boodschappenlijst set verpakking = $extra_verpakking where user_id = $user_id and artikel_id = $artikel_id";
 
@@ -96,10 +93,6 @@ class shoppinglist {
     } 
 
         
-
-
-
-    // onderstaande functie is getest en werkt!
 
     public function artikelOnList($artikel_id, $user_id){
 
