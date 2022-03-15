@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 24 feb 2022 om 14:24
+-- Gegenereerd op: 03 mrt 2022 om 11:20
 -- Serverversie: 10.4.22-MariaDB
 -- PHP-versie: 8.1.2
 
@@ -32,25 +32,26 @@ CREATE TABLE `artikel` (
   `naam` text NOT NULL,
   `omschrijving` text NOT NULL,
   `prijs` decimal(10,0) NOT NULL,
-  `aantal` int(10) NOT NULL,
-  `verpakking` varchar(500) NOT NULL
+  `eenheid` text NOT NULL,
+  `verpakking` int(50) NOT NULL,
+  `calorieën (KCAL)` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `artikel`
 --
 
-INSERT INTO `artikel` (`id`, `naam`, `omschrijving`, `prijs`, `aantal`, `verpakking`) VALUES
-(2, 'Hamburger', 'Hamburger van rundvlees', '350', 1, 'https://static.ah.nl/static/product/AHI_43545239363931383738_1_200x200_JPG.JPG'),
-(3, 'gehaktballen', 'gehaktballen', '400', 12, 'https://static.ah.nl/static/product/AHI_43545239383337383839_1_200x200_JPG.JPG'),
-(4, 'tomatensaus', 'kruidige tomatensaus', '325', 1, 'https://static.ah.nl/static/product/AHI_43545239373838373338_1_200x200_JPG.JPG'),
-(5, 'cheddar', 'cheddar kaas', '275', 10, 'https://static.ah.nl/static/product/AHI_43545239373032303532_1_200x200_JPG.JPG'),
-(6, 'sla', 'zakje gesneden ijsbergsla', '100', 1, 'https://static.ah.nl/static/product/AHI_434d50323038383834_2_200x200_JPG.JPG'),
-(7, 'cashewnoten', 'zakje cashewnoten', '375', 1, 'https://static.ah.nl/static/product/AHI_43545239383233353439_1_200x200_JPG.JPG'),
-(8, 'broccolirijst', 'pak broccolirijst', '300', 1, 'https://static.ah.nl/static/product/AHI_43545239353533393738_3_200x200_JPG.JPG'),
-(9, 'groentecurry', 'boemboe rode curry', '250', 1, 'https://static.ah.nl/static/product/AHI_43545239363532343930_1_200x200_JPG.JPG'),
-(10, 'aubergine', 'aubergine', '100', 1, 'https://static.ah.nl/static/product/AHI_434d5035363532303830_1_200x200_JPG.JPG'),
-(11, 'mosterd', 'potje mosterd grof gemalen', '120', 300, 'https://static.ah.nl/static/product/AHI_43545239353838303137_3_200x200_JPG.JPG');
+INSERT INTO `artikel` (`id`, `naam`, `omschrijving`, `prijs`, `eenheid`, `verpakking`, `calorieën (KCAL)`) VALUES
+(2, 'Hamburger', 'Hamburger van rundvlees', '350', 'stuks', 2, 500),
+(3, 'gehaktballen', 'gehaktballen', '400', 'stuks', 12, 450),
+(4, 'tomatensaus', 'kruidige tomatensaus', '325', 'ml', 300, 150),
+(5, 'cheddar', 'cheddar kaas', '275', 'stuks', 10, 80),
+(6, 'sla', 'zakje gesneden ijsbergsla', '100', 'gram', 100, 5),
+(7, 'cashewnoten', 'zakje cashewnoten', '375', 'gram', 200, 140),
+(8, 'broccolirijst', 'pak broccolirijst', '300', 'gram', 400, 25),
+(9, 'groentecurry', 'boemboe rode curry', '250', 'gram', 50, 35),
+(10, 'aubergine', 'aubergine', '100', 'stuks', 1, 10),
+(11, 'mosterd', 'potje mosterd grof gemalen', '120', 'ml', 200, 30);
 
 -- --------------------------------------------------------
 
@@ -92,8 +93,8 @@ CREATE TABLE `gerecht_info` (
   `gerecht_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `datum` date NOT NULL,
-  `nummeriekveld` int(11) DEFAULT NULL,
-  `tekstveld` text DEFAULT NULL
+  `nummeriekveld` int(11) NOT NULL,
+  `tekstveld` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -101,7 +102,6 @@ CREATE TABLE `gerecht_info` (
 --
 
 INSERT INTO `gerecht_info` (`id`, `record_type`, `gerecht_id`, `user_id`, `datum`, `nummeriekveld`, `tekstveld`) VALUES
-(1, 'B', 2, 1, '0000-00-00', 1, 'Verhit olie in een pan en bak de balletjes in 8 - 10 minuten gaar.'),
 (2, 'B', 2, 1, '2022-02-24', 1, 'Verhit olie in de pan en bak de balletjes in 8 - 10 minuten gaar.'),
 (3, 'B', 2, 1, '2022-02-24', 2, 'Voeg de tomatensaus toe en laat het geheel nog 2 minuutjes garen op laag vuur.'),
 (4, 'B', 3, 1, '2022-02-24', 1, 'Bak de hamburger in 10 - 12 minuten gaar.'),
@@ -111,16 +111,17 @@ INSERT INTO `gerecht_info` (`id`, `record_type`, `gerecht_id`, `user_id`, `datum
 (8, 'B', 4, 1, '2022-02-24', 3, 'Voeg de groentecurry en de cashewnoten toe aan de rijst.'),
 (9, 'B', 5, 1, '2022-02-24', 1, 'Snijd de aubergines in de lengte in plakken.'),
 (10, 'B', 5, 1, '2022-02-24', 2, 'Bak de aubergineschnitzels in twee delen 5 min. rondom goudbruin. Keer halverwege.'),
-(11, 'O', 2, 1, '2022-02-24', NULL, 'Lekker, maar wel erg beperkt qua ingrediënten...'),
-(12, 'O', 3, 1, '2022-02-24', NULL, 'Heerlijk! Vlees zoals het gegeten behoort te worden; vanaf de BBQ!'),
-(13, 'O', 4, 1, '2022-02-24', NULL, 'Erg lekker alternatief voor gewone rijst! \r\nLekker en gezond (...op de cashews na, dan)!'),
-(14, 'O', 5, 1, '2022-02-24', NULL, 'Wauw, geweldig! Ik proef bijna geen verschil met gewone schnitzel en dit is zo veel beter voor het milieu!'),
-(15, 'W', 2, 1, '2022-02-24', 3, NULL),
-(16, 'W', 3, 1, '2022-02-24', 4, NULL),
-(17, 'W', 4, 1, '2022-02-24', 4, NULL),
-(18, 'W', 5, 1, '2022-02-24', 5, NULL),
-(19, 'F', 5, 1, '2022-02-24', NULL, NULL),
-(20, 'F', 3, 1, '2022-02-24', NULL, NULL);
+(11, 'O', 2, 1, '2022-02-24', 0, 'Lekker, maar wel erg beperkt qua ingrediënten...'),
+(12, 'O', 3, 1, '2022-02-24', 0, 'Heerlijk! Vlees zoals het gegeten behoort te worden; vanaf de BBQ!'),
+(13, 'O', 4, 1, '2022-02-24', 0, 'Erg lekker alternatief voor gewone rijst! \r\nLekker en gezond (...op de cashews na, dan)!'),
+(14, 'O', 5, 1, '2022-02-24', 0, 'Wauw, geweldig! Ik proef bijna geen verschil met gewone schnitzel en dit is zo veel beter voor het milieu!'),
+(15, 'W', 2, 1, '2022-02-24', 3, ''),
+(16, 'W', 3, 1, '2022-02-24', 4, ''),
+(17, 'W', 4, 1, '2022-02-24', 4, ''),
+(18, 'W', 5, 1, '2022-02-24', 5, ''),
+(44, 'F', 2, 1, '0000-00-00', 0, ''),
+(359, 'W', 2, 2, '0000-00-00', 5, ''),
+(396, 'F', 5, 1, '0000-00-00', 0, '');
 
 -- --------------------------------------------------------
 
@@ -132,24 +133,24 @@ CREATE TABLE `ingredient` (
   `id` int(11) NOT NULL,
   `gerecht_id` int(11) NOT NULL,
   `artikel_id` int(11) NOT NULL,
-  `eenheid` varchar(20) NOT NULL
+  `aantal` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Gegevens worden geëxporteerd voor tabel `ingredient`
 --
 
-INSERT INTO `ingredient` (`id`, `gerecht_id`, `artikel_id`, `eenheid`) VALUES
-(1, 2, 3, '12 stuks'),
-(2, 2, 4, '400 gram'),
-(3, 3, 2, '1 stuk'),
-(4, 3, 5, '4 plakken'),
-(5, 3, 6, '50 gram'),
-(6, 4, 8, '250 gram'),
-(7, 4, 7, '75 gram'),
-(8, 4, 9, '100 gram'),
-(9, 5, 10, '1 stuk'),
-(10, 5, 11, '75 gram');
+INSERT INTO `ingredient` (`id`, `gerecht_id`, `artikel_id`, `aantal`) VALUES
+(1, 2, 3, 16),
+(2, 2, 4, 400),
+(3, 3, 2, 4),
+(4, 3, 5, 4),
+(5, 3, 6, 200),
+(6, 4, 8, 400),
+(7, 4, 7, 100),
+(8, 4, 9, 100),
+(9, 5, 10, 2),
+(10, 5, 11, 100);
 
 -- --------------------------------------------------------
 
@@ -196,7 +197,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `user_name`, `password`, `email`, `afbeelding`) VALUES
-(1, 'vabu84', 'password', 'valbuise@hotmail.com', '');
+(1, 'vabu84', 'password', 'valbuise@hotmail.com', ''),
+(2, 'fs', 'password2', 'fs@inet.nl', '');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -265,7 +267,7 @@ ALTER TABLE `gerecht`
 -- AUTO_INCREMENT voor een tabel `gerecht_info`
 --
 ALTER TABLE `gerecht_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=397;
 
 --
 -- AUTO_INCREMENT voor een tabel `ingredient`
@@ -283,7 +285,7 @@ ALTER TABLE `keuken_type`
 -- AUTO_INCREMENT voor een tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Beperkingen voor geëxporteerde tabellen
