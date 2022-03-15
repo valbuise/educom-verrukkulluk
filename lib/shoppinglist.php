@@ -40,18 +40,24 @@ class shoppinglist {
     $aantal = $ingredient['aantal'];
     $prijs = $ingredient['prijs'];
 
-    if(!$this->artikelOnList($ingredient['artikel_id'], $user_id)) {
+        if(!$this->artikelOnList($ingredient['artikel_id'], $user_id)) {
 
-    $sql = "insert into boodschappenlijst(user_id, artikel_id, verpakking, aantal, prijs) values (1, $artikel, $verpakking, $aantal, $prijs)";
+        $sql = "insert into boodschappenlijst(user_id, artikel_id, verpakking, aantal, prijs) values (1, $artikel, $verpakking, $aantal, $prijs)";
 
-    $result = mysqli_query($this->connection, $sql);
+        $result = mysqli_query($this->connection, $sql);
 
                 
-    } else {
+        } else {
+            // onderstaande werkt één keer: bij één keer extra toevoegen van een zelfde recept aan de lijst, berekent hij goed door.
+            // Na iedere volgende call van selectRecipe gebeurt er niks meer... Waarom?
 
-            $sql = "update boodschappenlijst set verpakking = $verpakking where user_id = $user_id and artikel_id = $artikel";
+        $extra_ingredient = $ingredient['aantal'] + $ingredient['aantal'];
+        $extra_nodig = $extra_ingredient / $ingredient['verpakking'];
+        $extra_verpakking = ceil($extra_nodig);
 
-            $result = mysqli_query($this->connection, $sql);
+        $sql = "update boodschappenlijst set aantal = $extra_ingredient, verpakking = $extra_verpakking where user_id = $user_id and artikel_id = $artikel";
+
+        $result = mysqli_query($this->connection, $sql);
           
         }
 
