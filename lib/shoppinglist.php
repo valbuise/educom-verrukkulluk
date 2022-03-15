@@ -25,26 +25,9 @@ class shoppinglist {
         return $ingredient;
     }
 
-
-    public function selectBoodschappen($artikel_id){  
-
-        $sql = "select * from boodschappen where id = $artikel_id";
-
-        $result = mysqli_query($this->connection, $sql);
-        
-        $boodschappen = mysqli_fetch_array($result, MYSQLI_ASSOC);
-
-        return($boodschappen);
-
-    }
-
-
-
     public function addToList($gerecht_id, $user_id){
 
     $ingredients = $this->selectIngredient($gerecht_id);
-
-    // $boodschappen = $this->selectBoodschappen($ingredient['artikel_id']);
 
     $total = 0;
 
@@ -66,7 +49,7 @@ class shoppinglist {
         } else {
         
         $grocerie = $this->artikelOnList($ingredient['artikel_id'], 1);
-        $extra_ingredient =$ingredient['aantal'] + $grocerie['aantal'];
+        $extra_ingredient = $ingredient['aantal'] + $grocerie['aantal'];
         $extra_nodig = $extra_ingredient / $ingredient['verpakking'];
         $extra_verpakking = ceil($extra_nodig);
 
