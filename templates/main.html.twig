@@ -1,53 +1,173 @@
 <html lang="nl">
 <head>
 
-    <title>het is verrukkuluk! :: {{ TITEL }} </title>
+    <title>het is verrukkulluk! :: {{ TITEL }} </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/fonts.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/fontawesome.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css" />
+    {# <link rel="stylesheet" type="text/css" href="../assets/css/fontawesome.css" /> #}
+    <script src="https://kit.fontawesome.com/7d23f0745f.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" type="text/css" href="assets/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="main.css" />
 
-    <script type="text/javascript" language="javascript" src="assets/jquery/jquery-3.5.1.js"></script>
-    <script type="text/javascript" language="javascript" src="assets/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" language="javascript" src="../assets/jquery/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
 
-</html>
+    {# rating-system script #}
+
+    <script> $(document).ready(function(){
+    $('li').mouseover(function(){
+        obj = $(this);
+        $('li').each(function(index){
+            $(this).addClass('highlight-stars');
+            if(index == $('li').index(obj)){
+                return false;
+            }
+        });
+    });
+
+    $('li').mouseleave(function(){
+        $('li').removeClass('highlight-stars');
+    });
+
+    $('li').click(function(){
+        obj = $(this);
+        $('li').each(function(index){
+            $(this).addClass('highlight-stars');
+            $('#star_rating').val((index+1));
+            $('#msg').html('Thanks! You have rated this ' + (index+1) + ' stars.');
+            if(index == $('li').index(obj)){
+                return false;
+            }
+        });
+    });
+
+    $('ul').mouseleave(function(){
+        if($('#star_rating').val()){
+            $('li').each(function(index){
+                $(this).addClass('highlight-stars');
+                if((index+1) == $('#star_rating').val()){
+                    return false;
+                }
+            });
+        }
+    });
+});
+
+</script>
+
+</head>
 <body>
 <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+        {% block nav %}
+        {% endblock %}
+        </div>
 
     <div class="row">
         <div class="col-md-12">
         {% block header %}
-            
-        {% endblock %}   
+        
+        {% endblock %} 
+        <br><br>  
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-3">
-            <h2>Agenda</h2>
-            <i class="fa fa-calendar"></i> FontAwesome <a href="https://fontawesome.com/icons?d=gallery&m=free">Documentation</a><br>
-            <i class="fa fa-file-pdf"></i><a href="https://www.layoutit.com/build">Layout-it</a>
+    
 
 
-        </div>
-        <div class="col-md-9">
-            <h2>Content</h2>
-            {%  block content %}
-            {%  endblock %}
-        </div>
-    </div>
+    <div class="row content">
+		<div class="col-md-3 green agenda border shadow p-3 mb-5 rounded">
+            <br><br>
+            <img src="../assets/img/verrukkulluk-agenda-small.png">
+            <br><br>
+            <i class="fa fa-calendar 2x"></i><h5> 28 februari: Workshop vegetarisch koken</h5> <a href="">aanmelden</a> <br><br>
+            <i class="fa fa-calendar 2x"></i><h5> 7 maart: Workshop bourgondisch genieten</h5> <a href="">aanmelden</a> <br><br>
+            <i class="fa fa-calendar 2x"></i><h5> 13 maart: Workshop stunten met pannen</h5> <a href="">aanmelden</a> <br><br>
+            <i class="fa fa-calendar 2x"></i><h5> 27 maart: Workshop keten met ketelen</h5> <a href="">aanmelden</a> <br><br>
+            <i class="fa fa-calendar 2x"></i><h5> 1 april: Workshop kannibalisme</h5> <a href="">aanmelden</a> <br><br>
+            <div class="row">
+                <div class="col-md-12 red logintext">
+                    <img src="../assets/img/verrukkulluk-login-small.png">
+                    <br><br>
+                    <form role="form">
+						<div class="form-group">
+							 
+							<label for="InputEmail">
+								Email
+							</label>
+							<input type="email" class="form-control" id="InputEmail" />
+						</div>
+                        <br>
+						<div class="form-group">
+							 
+							<label for="InputPassword">
+								Wachtwoord
+							</label>
+							<input type="password" class="form-control" id="InputPassword" />
+						</div>	
+                        <br><br>					
+						<button type="submit" class="btn btn-warning btn-large btn-block">
+							<h2 style="color: white">Login</h2>
+						</button>
+					</form>
+                </div>
+            </div>
+          
+		</div>      
 
+		<div class="col-md-9">
+        	{% block content %}
+            {% endblock %}		
+		</div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Footer</h1>
-        </div>
-    </div>
+        
+        
+	</div>
 
+    
 
 </div>
 
+<div class="row">
+        <div class="col-md-12">
+            {% block footer %}
+            {% endblock %}
+        </div>
+</div>
+
+
+{# script navbar 
+<script>
+function myFunction() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+</script> #}
+
+
+{# script tabs #}
+<script>
+function openInfo(evt, name) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(name).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
+
 </body>
+</html>

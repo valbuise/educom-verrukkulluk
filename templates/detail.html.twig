@@ -1,5 +1,170 @@
+{# Opnemen van de "Main" file #}
 {% extends "main.html.twig" %}
+{% block nav %}
+<!-- Top Navigation Menu -->
 
-{% block header %}
-<h1>Hallo Bram</h1>
+{% endblock %}
+
+{% block header  %}
+
+<div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
+        <div class="top-menu">
+            <div class="menu-items">
+            <ul>
+				<div class="row">
+					<div class="col-md-4"><li><a href="#favo"><h3 style="color: var(--lighter-red)">Mijn Favorieten</h3></a></li></div>
+					<div class="col-md-4"><li><a href="#boodschap"><h3 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h3></a></li></div>
+					<div class="col-md-4"><li><span style="color: var(--lighter-red)"><input type="text" placeholder="Zoeken..."></span></li>
+					<li><button type="submit" style="border: none;"><i class="fa fa-search"></i></button></li></div>
+				</div>
+			</ul> 
+            </div>
+        </div>
+    </div>
+  {# <p style="color: white">- #}
+  	<div class="header">
+    	<img src="../assets/img/logo-v2.png" class="brand-logo" />
+	</div>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="row">
+    {% for record in data %}
+		<div class="col-md-6 border shadow p-3 mb-5 bg-white rounded">
+			<img src="{{ record.afbeelding }}" style="width: 100%; height: 350px">
+		</div>
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+				<span style="float: left">
+                <i class="fa fa-users fa-xl">4</i><i class="fa fa-euro-sign fa-xl">{{ (record.totalprice)|number_format(2) }}</i><i class="fa fa-fire fa-xl">{{ record.totalcalories }}</i>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<h2 style="color: #6e8722">
+						{{ record.titel }}
+					</h2>
+				</div>
+				<div class="col-md-6">
+				<span style="float: right">
+                {{ record.avgrating }}
+				<input id="star_rating" name="star_rating" type="hidden" />
+				<ul>
+					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
+					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
+					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
+					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
+					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
+				</ul>
+				</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+                <h5 style="color: #6e8722;display: inline-block; padding-right: 15px">Keuken</h5>{{ record.keuken}}
+				</div>
+				<div class="col-md-6">
+				<span style="float: right">
+                <h5 style="color: #6e8722; display: inline-block; padding-right: 15px">Type</h5>{{ record.type}}
+				</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<p>
+						{{ record.lange_omschrijving}}
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					 
+					<button type="submit" class="oplijstknop">
+						<h5><a href="">Op Lijst</a></h5>
+					</button>
+				</div>
+				<div class="col-md-6">
+
+                    <i class="far fa-heart fa-2x" style="float: right"></i>
+				</div>
+			</div>
+		</div>
+    
+    <div class="col-md-12 border shadow p-3 mb-5 bg-white rounded" style="margin-top: 50px; height: 600px">
+    <!-- Tab links -->
+	<div class="tab">
+  		<button class="tablinks" onclick="openInfo(event, 'Ingredienten')"><h4 style="color: var(--darker-green)">Ingredienten</h4></button>
+  		<button class="tablinks" onclick="openInfo(event, 'Bereidingswijze')"><h4 style="color: var(--darker-green)">Bereidingswijze</h4></button>
+  		<button class="tablinks" onclick="openInfo(event, 'Opmerkingen')"><h4 style="color: var(--darker-green)">Opmerkingen</button>
+	</div>
+
+<!-- Tab content -->
+	<div id="Ingredienten" class="tabcontent">
+
+  
+		<div class="row">
+			{% for ingr in record.ingredient %}
+			<div class="col-md-3">
+			<img src="{{ ingr.afbeelding }}" style="width: 50%; height: 80%">
+			</div>
+			<div class="col-md-9">
+			<p>	<h2 style="color: #6e8722">{{ ingr.naam }}</h2><h6 style="color: #6e8722">Hoeveelheid</h6>{{ ingr.verpakking}} {{ingr.eenheid}}</p>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+  
+	<div id="Bereidingswijze" class="tabcontent">
+
+		<div class="row">
+  			{% for steps in record.steps %}
+			<div class="col-md-2">
+  			<p><i class="fa fa-hand-point-right fa-2x"></i> 
+			</div>  
+			<div class="col-md-10">{{ steps.tekstveld }}</p>
+			</div>
+  			{% endfor %}
+		</div>
+	</div>
+
+	<div id="Opmerkingen" class="tabcontent">
+
+		<div class="row">
+  			{% for opm in record.remarks %}
+			<div class="col-md-2">
+  			<p><img src="{{ opm.afbeelding }}" style="height:150px; width: 150px"> 
+			</div>
+			<div class="col-md-10">  
+		  		<span style="color: #6e8722"><h3>{{ opm.user_name}}</h3></span></p><p>{{ opm.tekstveld }}</p>
+			</div>
+  			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endfor %}
+{% endblock %}
+
+
+{% block footer %}
+<footer id="footer">
+<div class="site-footer">
+	<img id="footer-img" src="../assets/img/verrukkulluk-pay-off-small.png" />
+	<img id="contact" src="../assets/img/verrukkulluk-contact-small.png" /> 
+	<br><br><br><br>
+	<p>www.verrukkulluk.nl<br>
+	Poststraat 2B<br>
+	Sittard<br>
+	info@verrukkulluk.nl</p>
+</div>
+</footer>
+
+{# Dump 
+       <pre>
+        {{ dump(data) }}
+       </pre> #} 
+
 {% endblock %}
