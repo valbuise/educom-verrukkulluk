@@ -4,15 +4,14 @@
     <title>het is verrukkulluk! :: {{ TITEL }} </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../assets/css/fonts.css" />
-    {# <link rel="stylesheet" type="text/css" href="../assets/css/fontawesome.css" /> #}
+    <link rel="stylesheet" type="text/css" href="assets/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/fonts.css" />
     <script src="https://kit.fontawesome.com/7d23f0745f.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="main.css" />
 
-    <script type="text/javascript" language="javascript" src="../assets/jquery/jquery-3.5.1.js"></script>
-    <script type="text/javascript" language="javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" language="javascript" src="assets/jquery/jquery-3.5.1.js"></script>
+    <script type="text/javascript" language="javascript" src="assets/bootstrap/js/bootstrap.js"></script>
 
     <script> $(document).ready(function(){
 
@@ -20,11 +19,12 @@
 
             var value = $(this).attr("data-value");
             var gerecht_id = $(".smulknop").attr("data-value");
+            var rating = "rating";
 
             $.ajax({
-                url: "../lib/rating.php",
-                method: "POST",
-                data: { rating: value, gerecht: gerecht_id }, // hoe kan ik hier het juiste gerecht_id ingeven?
+                url: "index.php?gerecht_id=gerecht_id&action=rating&rating=value", // vanaf de detailpagina, wordt na klikken op een ster, de action niet automatisch in rating omgezet.. 
+                method: "GET",                                                                
+                data: { rating: value },
                 success: function(response) {
 
                     $('.fa-star').each( (index, elem) => {
@@ -40,25 +40,18 @@
                     console.log(value);
                 })
                 },
-                complete: function(){
-                    addRating($gerecht_id, $rating); // Hoe call ik een functie die in een ander bestand (.php) is gemaakt?
-                }
+                
             })
 
             
         })
     });
-    </script>
+    </script> 
 
 </head>
 
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-        {% block nav %}
-        {% endblock %}
-        </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -68,13 +61,11 @@
         <br><br>  
         </div>
     </div>
-    
-
 
     <div class="row content">
 		<div class="col-md-3 green agenda border shadow p-3 mb-5 rounded">
             <br><br>
-            <img src="../assets/img/verrukkulluk-agenda-small.png">
+            <img src="assets/img/verrukkulluk-agenda-small.png">
             <br><br>
             <i class="fa fa-calendar 2x"></i><h5> 28 februari: Workshop vegetarisch koken</h5> <a href="">aanmelden</a> <br><br>
             <i class="fa fa-calendar 2x"></i><h5> 7 maart: Workshop bourgondisch genieten</h5> <a href="">aanmelden</a> <br><br>
@@ -83,7 +74,7 @@
             <i class="fa fa-calendar 2x"></i><h5> 1 april: Workshop kannibalisme</h5> <a href="">aanmelden</a> <br><br>
             <div class="row">
                 <div class="col-md-12 red logintext">
-                    <img src="../assets/img/verrukkulluk-login-small.png">
+                    <img src="assets/img/verrukkulluk-login-small.png">
                     <br><br>
                     <form role="form">
 						<div class="form-group">
