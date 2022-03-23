@@ -14,50 +14,44 @@
     <script type="text/javascript" language="javascript" src="../assets/jquery/jquery-3.5.1.js"></script>
     <script type="text/javascript" language="javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
 
-    {# rating-system script #}
-
     <script> $(document).ready(function(){
-    $('li').mouseover(function(){
-        obj = $(this);
-        $('li').each(function(index){
-            $(this).addClass('highlight-stars');
-            if(index == $('li').index(obj)){
-                return false;
-            }
-        });
-    });
 
-    $('li').mouseleave(function(){
-        $('li').removeClass('highlight-stars');
-    });
+        $(".fa-star").click(function(){
 
-    $('li').click(function(){
-        obj = $(this);
-        $('li').each(function(index){
-            $(this).addClass('highlight-stars');
-            $('#star_rating').val((index+1));
-            $('#msg').html('Thanks! You have rated this ' + (index+1) + ' stars.');
-            if(index == $('li').index(obj)){
-                return false;
-            }
-        });
-    });
+            var value = $(this).attr("data-value");
+            var gerecht_id = $(".smulknop").attr("data-value");
 
-    $('ul').mouseleave(function(){
-        if($('#star_rating').val()){
-            $('li').each(function(index){
-                $(this).addClass('highlight-stars');
-                if((index+1) == $('#star_rating').val()){
-                    return false;
+            $.ajax({
+                url: "../lib/rating.php",
+                method: "POST",
+                data: { rating: value, gerecht: gerecht_id }, // hoe kan ik hier het juiste gerecht_id ingeven?
+                success: function(response) {
+
+                    $('.fa-star').each( (index, elem) => {
+
+                    $(elem).removeClass("after");
+
+                    var itemValue = $(elem).attr('data-value');
+
+                    if(itemValue <= value){
+
+                    $(elem).addClass("after");
+                    }
+                    console.log(value);
+                })
+                },
+                complete: function(){
+                    addRating($gerecht_id, $rating); // Hoe call ik een functie die in een ander bestand (.php) is gemaakt?
                 }
-            });
-        }
-    });
-});
+            })
 
-</script>
+            
+        })
+    });
+    </script>
 
 </head>
+
 <body>
 <div class="container-fluid">
     <div class="row">
@@ -137,21 +131,7 @@
         </div>
 </div>
 
-
-{# script navbar 
-<script>
-function myFunction() {
-  var x = document.getElementById("myLinks");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-  } else {
-    x.style.display = "block";
-  }
-}
-</script> #}
-
-
-{# script tabs #}
+{# tabs script #}
 <script>
 function openInfo(evt, name) {
   var i, tabcontent, tablinks;
@@ -167,7 +147,5 @@ function openInfo(evt, name) {
   evt.currentTarget.className += " active";
 }
 </script>
-
-
 </body>
 </html>

@@ -12,9 +12,10 @@
             <div class="menu-items">
             <ul>
 				<div class="row">
-					<div class="col-md-4"><li><a href="#favo"><h3 style="color: var(--lighter-red)">Mijn Favorieten</h3></a></li></div>
-					<div class="col-md-4"><li><a href="#boodschap"><h3 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h3></a></li></div>
-					<div class="col-md-4"><li><span style="color: var(--lighter-red)"><input type="text" placeholder="Zoeken..."></span></li>
+					<div class="col-md-3"><img src="../assets/img/logo-small.png" style="float: left; top: 0"></div>
+					<div class="col-md-3"><li><a href="#favo"><h3 style="color: var(--lighter-red)">Mijn Favorieten</h3></a></li></div>
+					<div class="col-md-3"><li><a href="#boodschap"><h3 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h3></a></li></div>
+					<div class="col-md-3"><li><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)"></li>
 					<li><button type="submit" style="border: none;"><i class="fa fa-search"></i></button></li></div>
 				</div>
 			</ul> 
@@ -23,7 +24,7 @@
     </div>
   {# <p style="color: white">- #}
   	<div class="header">
-    	<img src="../assets/img/logo-v2.png" class="brand-logo" />
+    	<a href="http://localhost/educom-verrukkulluk/fase-2/index.php?"><img src="../assets/img/logo-v2.png" class="brand-logo" /></a>
 	</div>
 
 {% endblock %}
@@ -51,15 +52,18 @@
 				</div>
 				<div class="col-md-6">
 				<span style="float: right">
-                {{ record.avgrating }}
-				<input id="star_rating" name="star_rating" type="hidden" />
-				<ul>
-					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
-					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
-					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
-					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
-					<li><a href=""><i class="fa fa-star fa-2x"></i></a></li>
-				</ul>
+                {{ (record.avgrating)|number_format(0) }}
+				{# <div class="rating-box">
+  					<div class="rating" style="width:82%;"></div>
+				</div> #}
+				{# <input id="star_rating" name="star_rating" type="hidden" /> #}
+				
+					<li><i class="far fa-star fa-2x" data-value="1"></i></li>
+					<li><i class="far fa-star fa-2x" data-value="2"></i></li>
+					<li><i class="far fa-star fa-2x" data-value="3"></i></li>
+					<li><i class="far fa-star fa-2x" data-value="4"></i></li>
+					<li><i class="far fa-star fa-2x" data-value="5"></i></li>
+
 				</span>
 				</div>
 			</div>
