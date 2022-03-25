@@ -17,17 +17,10 @@
 
         $(".fa-star").click(function(){
 
+            var gerecht = $(this).attr("data-gerecht");
             var value = $(this).attr("data-value");
-            var gerecht_id = $(".smulknop").attr("data-value");
-            var rating = "rating";
 
-            $.ajax({
-                url: "index.php?gerecht_id=gerecht_id&action=rating&rating=value", // vanaf de detailpagina, wordt na klikken op een ster, de action niet automatisch in rating omgezet.. 
-                method: "GET",                                                                
-                data: { rating: value },
-                success: function(response) {
-
-                    $('.fa-star').each( (index, elem) => {
+            $('.fa-star').each( (index, elem) => {
 
                     $(elem).removeClass("after");
 
@@ -37,16 +30,37 @@
 
                     $(elem).addClass("after");
                     }
-                    console.log(value);
                 })
-                },
+                              
+            $.ajax({
+                url: "index.php?gerecht_id=" + gerecht + "&action=rating",// "lib/api.php" // wat gaat er hier fout? want de functie addRating wordt wel uitgevoerd in de index (case rating), maar een response krijg ik niet. 
+                method: "POST",                                                                
+                data: {rating: value},   
+                success: function(response) {
+                 
+                var avgRating = response.avgRating;
+                $('.fa-star').each((index, elem) => {
+                $(elem).removeClass("after");
+                var itemValue = $(elem).attr('data-value');
+                if (itemValue <= avgRating) {
+                    $(elem).addClass("after");
+                }
+                })
+                 
+                console.log(response); // en toch gaat er iets fout, want krijg niks terug. het werkt wél als ik in de url naar mijn
+                                       // 'test' api.php verwijs..
+                
+                }
+                
                 
             })
 
-            
+            //console.log(value);
         })
+            
+        
     });
-    </script> 
+    </script>
 
 </head>
 
