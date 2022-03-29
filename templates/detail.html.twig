@@ -52,14 +52,16 @@
 				</div>
 				<div class="col-md-6">
 				<span style="float: right">
-                {{ (record.avgrating)|number_format(0) }}
-				
-					<a href="index.php?gerecht_id={{ record.id }}&action=rating&rating=1"><li><i class="far fa-star fa-2x" data-value="1"></i></a></li> {# zo werkt mijn functie wel, maar dit is uiteraard niet de bedoeling, want zo is t juist niet asynchronus #}
-					<li><i class="far fa-star fa-2x" data-value="2"></i></a></li>
-					<li><i class="far fa-star fa-2x" data-value="3"></i></a></li>
-					<li><i class="far fa-star fa-2x" data-value="4"></i></a></li>
-					<li><i class="far fa-star fa-2x" data-value="5"></i></a></li>
-
+					{% set avgrating = (record.avgrating)|round %}
+					{% for i in 1..5 %}
+						<span>
+						{% if i <= avgrating %}
+							{% set class = "fas" %}
+						{% else %}
+							{% set class = "far" %}
+						{% endif %}
+						<li><i class="{{ class}} fa-star fa-2x" data-value= "{{ i }}" data-gerecht="{{ record.id }}"></i></li></span>
+					{% endfor %}
 				</span>
 				</div>
 			</div>

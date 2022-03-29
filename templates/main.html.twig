@@ -14,51 +14,45 @@
     <script type="text/javascript" language="javascript" src="assets/bootstrap/js/bootstrap.js"></script>
 
     <script> $(document).ready(function(){
-
+        
         $(".fa-star").click(function(){
 
             var gerecht = $(this).attr("data-gerecht");
             var value = $(this).attr("data-value");
 
             $('.fa-star').each( (index, elem) => {
-
                     $(elem).removeClass("after");
-
                     var itemValue = $(elem).attr('data-value');
-
                     if(itemValue <= value){
-
-                    $(elem).addClass("after");
+                        $(elem).addClass("after");
                     }
                 })
                               
             $.ajax({
-                url: "index.php?gerecht_id=" + gerecht + "&action=rating",// "lib/api.php" // wat gaat er hier fout? want de functie addRating wordt wel uitgevoerd in de index (case rating), maar een response krijg ik niet. 
+                url: "index.php?gerecht_id=" + gerecht + "&action=rating", 
                 method: "POST",                                                                
                 data: {rating: value},   
                 success: function(response) {
                  
-                var avgRating = response.avgRating;
-                $('.fa-star').each((index, elem) => {
-                $(elem).removeClass("after");
-                var itemValue = $(elem).attr('data-value');
-                if (itemValue <= avgRating) {
-                    $(elem).addClass("after");
-                }
-                })
+                    var avgRating = response.avgRating;
+                    var roundedRating = Math.round(avgRating);
+
+                    $('.fa-star').each((index, elem) => {
+                        $(elem).removeClass("after");
+                        var itemValue = $(elem).attr('data-value');
+                        if (itemValue <= roundedRating) {
+                            $(elem).addClass("after");
+                        }
+                    })
                  
-                console.log(response); // en toch gaat er iets fout, want krijg niks terug. het werkt wél als ik in de url naar mijn
-                                       // 'test' api.php verwijs..
+                console.log(response);                        
                 
                 }
-                
-                
+                  
             })
 
-            //console.log(value);
         })
-            
-        
+                    
     });
     </script>
 

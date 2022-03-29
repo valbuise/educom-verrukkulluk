@@ -14,7 +14,7 @@
             <div class="menu-items">
             <ul>
 				<div class="row">
-					<div class="col-md-3"><img src="../assets/img/logo-small.png" style="float: left; top: 0"></div>
+					<div class="col-md-3"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
 					<div class="col-md-3"><li><a href="#favo"><h3 style="color: var(--lighter-red)">Mijn Favorieten</h3></a></li></div>
 					<div class="col-md-3"><li><a href="#boodschap"><h3 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h3></a></li></div>
 					<div class="col-md-3"><li><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)"></li>
@@ -26,7 +26,7 @@
     </div>
   {# <p style="color: white">- #}
   	<div class="header">
-    	<img src="../assets/img/logo-v2.png" class="brand-logo" />
+    	<img src="assets/img/logo-v2.png" class="brand-logo" />
 	</div>
 {% endblock %}
 
@@ -53,12 +53,16 @@
 				</div>
 				<div class="col-md-6">
 					<span style="float: right">
-					{{ (record.avgrating)|number_format(0) }}
-					<i class="far fa-star" data-value="1"></i>
-					<i class="far fa-star" data-value="2"></i>
-					<i class="far fa-star" data-value="3"></i>
-					<i class="far fa-star" data-value="4"></i>
-					<i class="far fa-star" data-value="5"></i>
+					{% set avgrating = (record.avgrating)|round %}
+					{% for i in 1..5 %}
+					<span>
+						{% if i <= avgrating %}
+							{% set class = "fas" %}
+						{% else %}
+							{% set class = "far" %}
+						{% endif %}
+						<li><i id="unclickable" class="{{ class }} fa-star" data-value= "{{ i }}" data-gerecht="{{ record.id }}"></i></li></span>
+					{% endfor %}
 					</span>
 				</div>
 			</div>
@@ -70,7 +74,7 @@
 			<div class="row">
 				<div class="col-md-6">					
 						<button type="submit" class="smulknop"><h5 style="color: white">
-						<a href="index.php?gerecht_id={{ record.id }}&action=detail" data-value="{{ record.id }}" class="button">Smullen!</a></h5>
+						<a href="index.php?gerecht_id={{ record.id }}&action=detail" class="button">Smullen!</a></h5>
 						</button>
 				</div>
 				<div class="col-md-6">
@@ -89,8 +93,8 @@
 {% block footer %}
 <footer id="footer">
 <div class="site-footer">
-	<img id="footer-img" src="../assets/img/verrukkulluk-pay-off-small.png" />
-	<img id="contact" src="../assets/img/verrukkulluk-contact-small.png" /> 
+	<img id="footer-img" src="assets/img/verrukkulluk-pay-off-small.png" />
+	<img id="contact" src="assets/img/verrukkulluk-contact-small.png" /> 
 	<br><br><br><br>
 	<p>www.verrukkulluk.nl<br>
 	Poststraat 2B<br>
