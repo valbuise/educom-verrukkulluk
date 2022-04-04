@@ -1,0 +1,116 @@
+{# Opnemen van de "Main" file #}
+{% extends "main.html.twig" %}
+{% block nav %}
+<!-- Top Navigation Menu -->
+
+{% endblock %}
+
+{% block header %}
+
+<div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
+        <div class="top-menu">
+            <div class="menu-items">
+            <ul>
+				<div class="row">
+					<div class="col-md-3"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
+					<div class="col-md-3"><li><a href="#favo"><h2 style="color: var(--lighter-red)">Mijn Favorieten</h2></a></li></div>
+					<div class="col-md-3"><li><a href="index.php?action=shoppinglist"><h2 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h2></a></li></div>
+					<div class="col-md-3"><li><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)"></li>
+					<li><a><i class="fa fa-search"></i></a></li>
+				</div>
+			</ul> 
+            </div>
+        </div>
+    </div>
+  {# <p style="color: white">- #}
+  	<div class="header">
+    	<a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" class="brand-logo" /></a>
+	</div>
+
+{% endblock %}
+
+{% block content %}
+
+{% set totaalPrijs = null %}
+
+<div class="row">
+		<div class="col-md-12">
+			<h1 style="color: #6e8722">
+				Boodschappen
+			</h1>
+            {% for record in data %}
+			<div class="row">
+				<div class="col-md-2">
+                <img src="{{ record.afbeelding }}" style="width: 70px; height: 70px">
+				</div>
+
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-12">
+							<h3 style="color: #6e8722">
+								{{ record.titel }}
+							</h3>
+						</div>
+					</div>
+					<p>
+					{{ record.omschrijving }}
+					</p>
+				</div>
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col-md-6 aantalArt">
+						{{ record.verpakkingen }}
+						</div>
+						<div class="col-md-6 prizes border shadow-sm p-3 mb-5 rounded">
+						{% set prijsInEuro = record.prijs / 100 %}
+						<i class="fa fa-euro-sign" style="align: center"></i>{{ (prijsInEuro)|number_format(2) }}<i class="fa fa-check updateArtikel" data-artikel = {{ record.artikel_id }}></i><i class="fa fa-trash deleteArtikel" data-artikel = {{ record.artikel_id }}></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% set totaalPrijs = record.totaalprijs %}
+            {% endfor %}
+			<span style="margin-top: 30px"> 
+			<div class="row">
+				<div class="col-md-2">
+                <h1 style="color: var(--lighter-red); display: inline-block">Totaal:</h1>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col-md-6 aantalArt">
+						</div>
+						<div class="col-md-6 prizes border shadow-sm p-3 mb-5 rounded">
+						<i class="fa fa-euro-sign"></i> {{ (totaalPrijs)|number_format(2) }}<i class="fa fa-trash totaal"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			</span>
+		</div>
+	
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer id="footer">
+<div class="site-footer">
+	<img id="footer-img" src="assets/img/verrukkulluk-pay-off-small.png" />
+	<img id="contact" src="assets/img/verrukkulluk-contact-small.png" /> 
+	<br><br><br><br>
+	<p>www.verrukkulluk.nl<br>
+	Poststraat 2B<br>
+	Sittard<br>
+	info@verrukkulluk.nl</p>
+</div>
+</footer>
+
+{# Dump 
+       <pre>
+        {{ dump(data) }}
+       </pre> #} 
+
+{% endblock %}
