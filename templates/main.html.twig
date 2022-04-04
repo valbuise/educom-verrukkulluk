@@ -52,6 +52,69 @@
             })
 
         })
+
+        $(".oplijstknop").click(function(){
+
+            var gerecht = $(this).attr("data-gerecht");
+
+            $.ajax({
+                url: "index.php?gerecht_id=" + gerecht + "&action=list", 
+                method: "POST",                                                                
+                data: {gerecht: gerecht},   
+                success: function(response) {
+
+                    console.log(response);
+                }
+            })
+        })
+
+        $(".totaal").click(function(){
+
+            var gerecht = $(this).attr("data-gerecht");
+
+            $.ajax({
+                url: "index.php?action=deleteAll", 
+                method: "POST",                                                                
+                data: {gerecht: gerecht},   
+                success: function(response) {
+
+                    console.log(response);
+                    location.reload(true);
+                }
+            })
+        })
+
+        $(".deleteArtikel").click(function(){
+
+            var artikel = $(this).attr("data-artikel");
+
+            $.ajax({
+                url: "index.php?action=deleteArtikel", 
+                method: "POST",                                                                
+                data: {artikel: artikel},   
+                success: function(response) {
+
+                    console.log(response);
+                    location.reload(true);
+                }
+            })
+        })
+
+        $(".updateArtikel").click(function(){
+
+            var artikel = $(this).attr("data-artikel");
+
+            $.ajax({
+                url: "index.php?action=updateArtikel", 
+                method: "POST",                                                                
+                data: {artikel: artikel},   
+                success: function(response) {
+
+                    console.log(response);
+                    location.reload(true);
+                }
+            })
+        })
                     
     });
     </script>
@@ -70,65 +133,59 @@
         </div>
     </div>
 
-    <div class="row content">
-		<div class="col-md-3 green agenda border shadow p-3 mb-5 rounded">
-            <br><br>
-            <img src="assets/img/verrukkulluk-agenda-small.png">
-            <br><br>
-            <i class="fa fa-calendar 2x"></i><h5> 28 februari: Workshop vegetarisch koken</h5> <a href="">aanmelden</a> <br><br>
-            <i class="fa fa-calendar 2x"></i><h5> 7 maart: Workshop bourgondisch genieten</h5> <a href="">aanmelden</a> <br><br>
-            <i class="fa fa-calendar 2x"></i><h5> 13 maart: Workshop stunten met pannen</h5> <a href="">aanmelden</a> <br><br>
-            <i class="fa fa-calendar 2x"></i><h5> 27 maart: Workshop keten met ketelen</h5> <a href="">aanmelden</a> <br><br>
-            <i class="fa fa-calendar 2x"></i><h5> 1 april: Workshop kannibalisme</h5> <a href="">aanmelden</a> <br><br>
-            <div class="row">
-                <div class="col-md-12 red logintext">
-                    <img src="assets/img/verrukkulluk-login-small.png">
-                    <br><br>
-                    <form role="form">
-						<div class="form-group">
+        <div class="row content">
+		    <div class="col-md-3 green agenda border shadow p-3 mb-5 rounded">
+                <br><br>
+                <img src="assets/img/verrukkulluk-agenda-small.png">
+                <br><br>
+                <i class="fa fa-calendar 2x"></i><h5> 28 februari: Workshop vegetarisch koken</h5> <a href="">aanmelden</a> <br><br>
+                <i class="fa fa-calendar 2x"></i><h5> 7 maart: Workshop bourgondisch genieten</h5> <a href="">aanmelden</a> <br><br>
+                <i class="fa fa-calendar 2x"></i><h5> 13 maart: Workshop stunten met pannen</h5> <a href="">aanmelden</a> <br><br>
+                <i class="fa fa-calendar 2x"></i><h5> 27 maart: Workshop keten met ketelen</h5> <a href="">aanmelden</a> <br><br>
+                <i class="fa fa-calendar 2x"></i><h5> 1 april: Workshop kannibalisme</h5> <a href="">aanmelden</a> <br><br>
+                <div class="row">
+                    <div class="col-md-12 red logintext">
+                        <img src="assets/img/verrukkulluk-login-small.png">
+                        <br><br>
+                        <form role="form">
+						    <div class="form-group">
 							 
-							<label for="InputEmail">
-								Email
-							</label>
-							<input type="email" class="form-control" id="InputEmail" />
-						</div>
-                        <br>
-						<div class="form-group">
+							    <label for="InputEmail">
+								    Email
+							    </label>
+							    <input type="email" class="form-control" id="InputEmail" />
+						    </div>
+                            <br>
+						    <div class="form-group">
 							 
-							<label for="InputPassword">
-								Wachtwoord
-							</label>
-							<input type="password" class="form-control" id="InputPassword" />
-						</div>	
-                        <br><br>					
-						<button type="submit" class="btn btn-warning btn-large btn-block">
-							<h2 style="color: white">Login</h2>
-						</button>
-					</form>
+							    <label for="InputPassword">
+								    Wachtwoord
+							    </label>
+							    <input type="password" class="form-control" id="InputPassword" />
+						    </div>	
+                            <br><br>					
+						    <button type="submit" class="btn btn-warning btn-large btn-block">
+							    <h2 style="color: white">Login</h2>
+						    </button>
+					    </form>
+                    </div>
                 </div>
-            </div>
-          
-		</div>      
+            </div>      
 
-		<div class="col-md-9">
-        	{% block content %}
-            {% endblock %}		
-		</div>
+		    <div class="col-md-9 border shadow-sm p-3 mb-5 rounded">
+        	    {% block content %}
+                {% endblock %}		
+		    </div>
+        </div>
 
-        
-        
-	</div>
+    <div class="col-md-12">
+        {% block footer %}
+        {% endblock %}
+    </div>
+</div>
 
     
 
-</div>
-
-<div class="row">
-        <div class="col-md-12">
-            {% block footer %}
-            {% endblock %}
-        </div>
-</div>
 
 {# tabs script #}
 <script>
