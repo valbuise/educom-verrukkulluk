@@ -147,14 +147,35 @@ class shoppinglist {
         return($result);
     }
 
-    public function deleteArtikel($artikel_id){
 
-        $sql = "update boodschappenlijst set verpakkingen = verpakkingen - 1, prijs = prijs - prijsverpakking where artikel_id = $artikel_id";
+    public function deleteArtikel($artikel_id, $user_id){
+
+        $sql = "select * from boodschappenlijst where user_id = $user_id";
 
         $result = mysqli_query($this->connection, $sql);
 
-        return($result);
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){    
+            
+            if ($row['verpakkingen'] <= 0){ 
+
+                $sql = "delete from boodschappenlijst where artikel_id = $artikel_id";
+
+                $result = mysqli_query($this->connection, $sql);
+
+                return($result);
+
+            }
+        }
+            
+            $sql = "update boodschappenlijst set verpakkingen = verpakkingen - 1, prijs = prijs - prijsverpakking where artikel_id = $artikel_id"; 
+                
+            $result = mysqli_query($this->connection, $sql);
+
+            return($result);
+
+        
     }
+
 
     public function updateArtikel($artikel_id){
 
