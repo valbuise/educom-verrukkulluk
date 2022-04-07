@@ -6,22 +6,26 @@
 {% endblock %}
 
 {% block header %}
-
+<div class="searchbox">
+	<form method="post" action="index.php?action=search&value=search">
+		<input type="text" placeholder="Zoeken..." name="keyword" style="border-color: var(--lighter-red)">
+		<button class="btn btn-link btn-xs" type="submit"><i class="fa fa-search"></i></button>
+	</form>
+</div>
 <div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
         <div class="top-menu">
             <div class="menu-items">
             <ul>
 				<div class="row">
-					<div class="col-md-3"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
-					<div class="col-md-3"><li><a href="#favo"><h2 style="color: var(--lighter-red)">Mijn Favorieten</h2></a></li></div>
-					<div class="col-md-3"><li><a href="index.php?action=shoppinglist"><h2 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h2></a></li></div>
-					<div class="col-md-3"><li><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)"></li>
-					<li><a><i class="fa fa-search"></i></a></li>
+					<div class="col-md-4"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
+					<div class="col-md-4"><li><a href="#favo"><h2 style="color: var(--lighter-red)">Mijn Favorieten</h2></a></li></div>
+					<div class="col-md-4"><li><a href="index.php?action=shoppinglist"><h2 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h2></a></li></div>
 				</div>
 			</ul> 
             </div>
         </div>
-    </div>
+</div>
+</div>
   {# <p style="color: white">- #}
   	<div class="header">
     	<a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" class="brand-logo" /></a>
@@ -35,9 +39,25 @@
 
 <div class="row">
 		<div class="col-md-12">
-			<h1 style="color: #6e8722">
-				Boodschappen
-			</h1>
+			<div class="row boodschappenbalk">
+				<div class="col-md-2">
+                <h1 style="color: #6e8722; display: inline-block">Boodschappen</h1>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="row">
+						<div class="col-md-6">
+						<h2 style="color: #6e8722; display: inline-block;">Aantal</h2>
+						</div>
+						<div class="col-md-6">
+							<h2 style="color: #6e8722; display: inline-block">Prijs</h2>
+						</div>
+					</div>
+				</div>
+			</div>
             {% for record in data %}
 			<div class="row">
 				<div class="col-md-2">
@@ -70,8 +90,7 @@
 			</div>
 			{% set totaalPrijs = record.totaalprijs %}
             {% endfor %}
-			<span style="margin-top: 30px"> 
-			<div class="row">
+			<div class="row totaalbalk">
 				<div class="col-md-2">
                 <h1 style="color: var(--lighter-red); display: inline-block">Totaal:</h1>
 				</div>
@@ -89,7 +108,6 @@
 					</div>
 				</div>
 			</div>
-			</span>
 		</div>
 	
 </div>

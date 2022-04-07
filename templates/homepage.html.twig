@@ -5,9 +5,13 @@
 
 {% endblock %}
 
-{% block header  %} {# hoe krijg ik de ingevoerde tekst als variabele $search doorgevoerd naar search.php? #}
-<div class="searchbox"><form id="zoekfunctie" method="post" action="search" value="search"><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)">
-<a href="index.php?action=search&value=search"><i class="fa fa-search"></i></a></form></div>
+{% block header  %}
+<div class="searchbox">
+	<form method="post" action="index.php?action=search&value=search">
+		<input type="text" placeholder="Zoeken..." name="keyword" style="border-color: var(--lighter-red)">
+		<button class="btn btn-link btn-xs" type="submit"><i class="fa fa-search"></i></button>
+	</form>
+</div>
 <div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
         <div class="top-menu">
             <div class="menu-items">
@@ -84,8 +88,7 @@
 
 
 {% block footer %}
-<footer id="footer">
-<div class="site-footer">
+<footer id="footer" class="site-footer">
 	<img id="footer-img" src="assets/img/verrukkulluk-pay-off-small.png" />
 	<img id="contact" src="assets/img/verrukkulluk-contact-small.png" /> 
 	<br><br><br><br>
@@ -93,7 +96,6 @@
 	Poststraat 2B<br>
 	Sittard<br>
 	info@verrukkulluk.nl</p>
-</div>
 </footer>
 
 {# Dump 

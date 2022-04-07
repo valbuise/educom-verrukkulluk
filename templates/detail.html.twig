@@ -6,26 +6,31 @@
 {% endblock %}
 
 {% block header  %}
-
+<div class="searchbox">
+	<form method="post" action="index.php?action=search&value=search">
+		<input type="text" placeholder="Zoeken..." name="keyword" style="border-color: var(--lighter-red)">
+		<button class="btn btn-link btn-xs" type="submit"><i class="fa fa-search"></i></button>
+	</form>
+</div>
 <div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
         <div class="top-menu">
             <div class="menu-items">
             <ul>
 				<div class="row">
-					<div class="col-md-3"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
-					<div class="col-md-3"><li><a href="#favo"><h3 style="color: var(--lighter-red)">Mijn Favorieten</h3></a></li></div>
-					<div class="col-md-3"><li><a href="#boodschap"><h3 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h3></a></li></div>
-					<div class="col-md-3"><li><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)"></li>
-					<li><button type="submit" style="border: none;"><i class="fa fa-search"></i></button></li></div>
+					<div class="col-md-4"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
+					<div class="col-md-4"><li><a href="#favo"><h2 style="color: var(--lighter-red)">Mijn Favorieten</h2></a></li></div>
+					<div class="col-md-4"><li><a class="#boodschappen" href="index.php?action=shoppinglist"><h2 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h2></a></li></div>
 				</div>
 			</ul> 
             </div>
         </div>
-    </div>
-  {# <p style="color: white">- #}
-  	<div class="header">
+</div>
+</div>
+  	{% for record in data %}
+  	<div class="header" style="background-image: {{ record.afbeelding }}">
     	<a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" class="brand-logo" /></a>
 	</div>
+	{% endfor %}
 
 {% endblock %}
 
@@ -35,7 +40,7 @@
 <div class="row">
     {% for record in data %}
 		<div class="col-md-6 border shadow p-3 mb-5 bg-white rounded">
-			<img src="{{ record.afbeelding }}" style="width: 100%; height: 350px">
+			<img src="{{ record.afbeelding }}" style="width: 100%; height: 100%">
 		</div>
 		<div class="col-md-6">
 			<div class="row">
@@ -78,15 +83,15 @@
 			<div class="row">
 				<div class="col-md-12">
 					<p>
-						{{ record.lange_omschrijving}}
+						{{ record.lange_omschrijving }}
 					</p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
 					 
-					<button type="submit" class="oplijstknop">
-						<h5><a href="">Op Lijst</a></h5>
+					<button type="submit" class="oplijstknop" data-gerecht="{{ record.id }}">
+						<h5 style="color: white">Op Lijst</h5>
 					</button>
 				</div>
 				<div class="col-md-6">
@@ -96,7 +101,7 @@
 			</div>
 		</div>
     
-    <div class="col-md-12 border shadow p-3 mb-5 bg-white rounded" style="margin-top: 50px; height: 600px">
+    <div class="col-md-12 border shadow p-3 mb-5 bg-white rounded" style="margin-top: 50px; min-height: 600px">
     <!-- Tab links -->
 	<div class="tab">
   		<button class="tablinks" onclick="openInfo(event, 'Ingredienten')"><h4 style="color: var(--darker-green)">Ingredienten</h4></button>
@@ -108,10 +113,10 @@
 	<div id="Ingredienten" class="tabcontent">
 
   
-		<div class="row">
+		<div class="row" style="margin-top: 50px;">
 			{% for ingr in record.ingredient %}
 			<div class="col-md-3">
-			<img src="{{ ingr.afbeelding }}" style="width: 50%; height: 80%">
+			<img src="{{ ingr.afbeelding }}" style="position: relative; top: 50%; transform: translateY(-50%); width: 80px; height: 80px">
 			</div>
 			<div class="col-md-9">
 			<p>	<h2 style="color: #6e8722">{{ ingr.naam }}</h2><h6 style="color: #6e8722">Hoeveelheid</h6>{{ ingr.verpakking}} {{ingr.eenheid}}</p>
@@ -122,7 +127,7 @@
   
 	<div id="Bereidingswijze" class="tabcontent">
 
-		<div class="row">
+		<div class="row" style="margin-top: 50px;">
   			{% for steps in record.steps %}
 			<div class="col-md-2">
   			<p><i class="fa fa-hand-point-right fa-2x"></i> 
@@ -135,19 +140,22 @@
 
 	<div id="Opmerkingen" class="tabcontent">
 
-		<div class="row">
+		<div class="row" style="margin-top: 50px;">
   			{% for opm in record.remarks %}
-			<div class="col-md-2">
-  			<p><img src="{{ opm.afbeelding }}" style="height:150px; width: 150px"> 
+			<div class="col-md-3">
+			  	<p><img src="{{ opm.afbeelding }}" style="height:150px; width: 150px"></p>
 			</div>
-			<div class="col-md-10">  
-		  		<span style="color: #6e8722"><h3>{{ opm.user_name}}</h3></span></p><p>{{ opm.tekstveld }}</p>
+			<div class="col-md-9"> 
+		  		<h3 style="color: #6e8722">{{ opm.user_name }}</h3>
+				<p>{{ opm.tekstveld }}</p>
 			</div>
   			{% endfor %}
 		</div>
 	</div>
+
+	{% endfor %}
 </div>
-{% endfor %}
+</div>
 {% endblock %}
 
 
