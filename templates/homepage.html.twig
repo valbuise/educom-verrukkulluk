@@ -1,47 +1,41 @@
 {# Opnemen van de "Main" file #}
 {% extends "main.html.twig" %}
-
-{# {% block nav %}
+{% block nav %}
 <!-- Top Navigation Menu -->
 
-{% endblock %} #}
+{% endblock %}
 
-{% block header  %}
-
-
-	<div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
+{% block header  %} {# hoe krijg ik de ingevoerde tekst als variabele $search doorgevoerd naar search.php? #}
+<div class="searchbox"><form id="zoekfunctie" method="post" action="search" value="search"><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)">
+<a href="index.php?action=search&value=search"><i class="fa fa-search"></i></a></form></div>
+<div class="menu-icon"><a><i class="fa fa-bars fa-2x"></i></a>
         <div class="top-menu">
             <div class="menu-items">
             <ul>
 				<div class="row">
-					<div class="col-md-3"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
-					<div class="col-md-3"><li><a href="#favo"><h3 style="color: var(--lighter-red)">Mijn Favorieten</h3></a></li></div>
-					<div class="col-md-3"><li><a href="#boodschap"><h3 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h3></a></li></div>
-					<div class="col-md-3"><li><input type="text" placeholder="Zoeken..." style="border-color: var(--lighter-red)"></li>
-					<li><button type="submit" style="border: none;"><i class="fa fa-search"></i></button></li></div>
+					<div class="col-md-4"><img src="assets/img/logo-small.png" style="float: left; top: 0"></div>
+					<div class="col-md-4"><li><a href="#favo"><h2 style="color: var(--lighter-red)">Mijn Favorieten</h2></a></li></div>
+					<div class="col-md-4"><li><a href="index.php?action=shoppinglist"><h2 style="color: var(--lighter-red)">Mijn Boodschappenlijst</h2></a></li></div>
 				</div>
 			</ul> 
             </div>
         </div>
-    </div>
+</div>
+</div>
   {# <p style="color: white">- #}
   	<div class="header">
-    	<img src="assets/img/logo-v2.png" class="brand-logo" />
+    	<a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" class="brand-logo" /></a>
 	</div>
+
 {% endblock %}
 
-
-{# nu de block content op in de main pagina vullen #}
-
-
 {% block content %}
-	<div class="row">
+<div class="row">
     {% for record in data %}
-
 		<div class="col-md-6 border shadow p-3 mb-5 bg-white rounded">
 			<div class="row">
 				<div class="col-md-12">
-					<img src="{{ record.afbeelding }}" style="width: 100%; height: 340px;">
+					<img src="{{ record.afbeelding }}" style="width: 100%; height: 360px;">
 					<br><br>
 				</div>
 			</div>
@@ -79,14 +73,13 @@
 				</div>
 				<div class="col-md-6">
 				<span style="float: right">
-				<i class="fa fa-users">4</i><i class="fa fa-euro-sign">{{ (record.totalprice)|number_format(2) }}</i><i class="fa fa-fire">{{ record.totalcalories }}</i>
+				<i class="fa fa-users"></i>4<i class="fa fa-euro-sign"></i>{{ (record.totalprice)|number_format(2) }}<i class="fa fa-fire"></i>{{ record.totalcalories }}
 				</span>
 				</div>
 			</div>
 		</div>
-		{% endfor %}
-
-	</div>
+	{% endfor %}
+</div>
 {% endblock %}
 
 
@@ -109,13 +102,3 @@
        </pre> #} 
 
 {% endblock %}
-
-    
-    
-     
-
-
-
-
-
-
