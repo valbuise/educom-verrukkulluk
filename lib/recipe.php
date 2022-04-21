@@ -88,6 +88,7 @@ class recipe {
 
    }
    
+    $totalInEuro = 0;
 
     $totalInEuro = $total / 100;
 
@@ -118,8 +119,7 @@ class recipe {
   
         $gerechten = [];
           
-        
-        $sql =  "select * from gerecht"; // geeft fout
+        $sql =  "select * from gerecht";
     
         if ($gerecht_id != NULL){
     

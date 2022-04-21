@@ -26,11 +26,17 @@
         </div>
 </div>
 </div>
-  	{% for record in data %}
-  	<div class="header" style="background-image: {{ record.afbeelding }}">
-    	<a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" class="brand-logo" /></a>
+{% for record in data %}
+<div class="wrapper">
+  	<div class="header" style="background-image: url('{{ record.afbeelding }}')"></div>
+	<div class="brand-logo" ><a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" /></a></div>
+</div>
+{% endfor %}
+  	{# 
+  	<div class="header" 
+    	<a href="http://localhost/educom-verrukkulluk/index.php?"><img src="assets/img/logo-v2.png" class="brand-logo" style="z-index: 5000" /></a>
 	</div>
-	{% endfor %}
+	 #}
 
 {% endblock %}
 

@@ -2,7 +2,7 @@
 
 // Aanpassen naar je eigen omgeving
 define("USER", "root");
-define("PASSWORD", "Ibahps2019");
+define("PASSWORD", "");
 define("DATABASE", "db");
 define("HOST", "127.0.0.1");
 

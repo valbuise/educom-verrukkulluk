@@ -30,7 +30,7 @@ class ingredient {
 
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){
 
-            $artikel = $this->artikel->selectArtikel($row['artikel_id']);
+            $artikel = $this->selectArtikel($row['artikel_id']);
 
             $artEnIng[] = array_merge($row, $artikel);
 

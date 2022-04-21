@@ -27,6 +27,7 @@ require_once("lib/ingredient.php");
 require_once("lib/recipe.php");
 require_once("lib/shoppinglist.php");
 require_once("lib/rating.php");
+require_once("lib/search.php");
 
 /// INIT
 
@@ -39,6 +40,7 @@ $ing = new ingredient($db->getConnection());
 $gerecht = new recipe($db->getConnection()); 
 $shp = new shoppinglist($db->getConnection());
 $rat = new rating($db->getConnection());
+$zoek = new zoek($db->getConnection());
 
 /// VERWERK 
 
@@ -69,9 +71,6 @@ $action = isset($_GET["action"]) ? $_GET["action"] : "homepage";
 
 
 
-
-
-
 switch($action) {
 
         case "homepage": {
@@ -88,19 +87,76 @@ switch($action) {
             break;
         }
 
-        case "rating": { 
-            
-            $rating = isset($_POST['rating']) ? $_POST['rating'] : "";
+        case "rating": {      
+
+            $rating = isset($_POST['rating']) ? $_POST['rating'] : "";     
             $rat->addRating($gerecht_id, $rating);            
-            
-            $data = $gerecht->selectRecipe($gerecht_id);        
-            $avgRating =  $data["avgrating"]; // Werkt dit zo?
+            $data = $gerecht->selectRecipe($gerecht_id); 
+            $avgRating =  $data[0]['avgrating'];
             
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode(["success" => true, "rating" => $rating, 'avgRating' => $avgRating]);
-            
+            echo json_encode(["success" => true, "gerecht"=> $gerecht_id, "rating" => $rating, "avgRating" => $avgRating]);
+            exit();
             break;
         } 
+
+        case "list": { 
+
+            $shp->addToList($gerecht_id, '1');
+            $data = $gerecht->selectRecipe($gerecht_id);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(["success" => true, "gerecht"=> $gerecht_id]);
+            exit();
+            break;
+        }
+
+        case "shoppinglist": { 
+
+            $data = $shp->selectList(1);
+            $template = 'shop.html.twig';
+            $title = "boodschappenlijst";
+            break;
+
+        }
+
+        case "deleteAll": {
+
+            $shp->deleteAll();
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(["success" => true]);
+            exit();
+            break;
+        }
+
+        case "deleteArtikel": {
+
+            $artikel_id = isset($_POST['artikel']) ? $_POST['artikel'] : "";
+            $shp->deleteArtikel($artikel_id, 1);
+            
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(["success" => true]);
+            exit();
+            break;
+        }
+
+        case "updateArtikel": {
+
+            $artikel_id = isset($_POST['artikel']) ? $_POST['artikel'] : "";
+            $shp->updateArtikel($artikel_id);
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode(["success" => true]);
+            exit();
+            break;
+        }
+
+        case "search": {
+
+            $keyword = isset($_POST['keyword']) ? $_POST['keyword'] : "";
+            $data = $zoek->zoek($keyword);
+            $template = 'homepage.html.twig';
+            $title = "homepage";
+            break;
+        }
 
         /// etc
 
@@ -118,5 +174,5 @@ echo $template->render(["title" => $title, "data" => $data]);
 
 /// RETURN
 
-// echo "<pre>"; //preserve text formatting
-// var_dump($data_rat);
+//echo "<pre>"; //preserve text formatting
+//var_dump($data);

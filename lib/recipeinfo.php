@@ -38,15 +38,18 @@ class recipeinfo{
         $result = mysqli_query($this->connection, $sql);
         
         
-        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){ 
-     
-            $gerecht_info[] = $row;                               
+        while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)){                          
 
             if ($record_type == 'O' || $record_type == 'F'){      
                 
                $user = $this->selectUser($row['user_id']);        
               
-               $gerecht_info = array_merge($row, $user);          
+               $gerecht_info[] = array_merge($row, $user);  
+
+            } else { 
+                
+                $gerecht_info[] = $row;
+
             }
 
                                                                        
